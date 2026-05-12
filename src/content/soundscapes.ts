@@ -26,15 +26,15 @@ export const soundscapeProjects: SoundscapeProject[] = [
   {
     title: 'Gris Soundscape',
     description: 'A deeply emotional and atmospheric soundscape created for Gris. Featuring immersive ambient layers and melodic progressions designed to carry the listener through an evocative sonic journey.',
-    coverImage: '/soundscapes/grissoundscape.mp4',
-    images: ['/soundscapes/grissoundscape.mp4'],
+    coverImage: '/soundscapes/grissoundscape.webm',
+    images: ['/soundscapes/grissoundscape.webm'],
     tags: ['Soundscape', 'Video', 'Ambient'],
   },
   {
     title: 'Horrorscape',
     description: 'A chilling, tension-driven sound design piece built from dark ambient textures, unsettling foley, and carefully crafted spatial audio to evoke dread and unease.',
-    coverImage: '/soundscapes/horrorscape.mp4',
-    images: ['/soundscapes/horrorscape.mp4'],
+    coverImage: '/soundscapes/horrorscape.webm',
+    images: ['/soundscapes/horrorscape.webm'],
     tags: ['Sound Design', 'Video', 'Horror', 'Dark Ambient'],
   },
 ]
