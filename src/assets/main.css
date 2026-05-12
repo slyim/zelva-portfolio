@@ -1,0 +1,61 @@
+@import './base.css';
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  font-weight: normal;
+}
+
+/* ===== ACCESSIBILITY: Global focus-visible styles ===== */
+*:focus-visible {
+  outline: 2.5px solid var(--accent-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Reduce outline offset on buttons and small elements */
+button:focus-visible,
+a:focus-visible {
+  outline-offset: 2px;
+}
+
+/* Ensure focus is visible on glass/card elements */
+.glass-card:focus-visible,
+.nav-container:focus-visible {
+  outline-offset: 4px;
+}
+
+/* ===== ACCESSIBILITY: Skip-to-content link ===== */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 12px 20px;
+  background: var(--accent-color);
+  color: var(--text-on-accent);
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 0 0 12px 12px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: none;
+}
+
+/* ===== ACCESSIBILITY: Respect reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

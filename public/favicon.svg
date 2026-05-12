@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="pen-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D0FF00"/>
+      <stop offset="100%" stop-color="#0F9"/>
+    </linearGradient>
+  </defs>
+  <!-- Duotone fill -->
+  <path d="M24.5 2.5a3.5 3.5 0 0 0-4.95 0L7.5 14.55l-.55.55a1 1 0 0 0-.2.35l-3 10a1 1 0 0 0 1.25 1.25l10-3a1 1 0 0 0 .35-.2l.55-.55L29.5 12.45a3.5 3.5 0 0 0 0-4.95l-5-5zM17 16.83l-4.24-4.24L21.88 3.46a1.5 1.5 0 0 1 2.12 0l4.54 4.54a1.5 1.5 0 0 1 0 2.12L17 16.83zM7.2 16.4l4.4 4.4-6.66 2 2.26-6.4z" fill="url(#pen-grad)"/>
+</svg>

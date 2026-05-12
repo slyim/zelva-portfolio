@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --vt-c-white: #ffffff;
+  --vt-c-white-soft: #f8f8f8;
+  --vt-c-white-mute: #f2f2f2;
+
+  --vt-c-black: #181818;
+  --vt-c-black-soft: #222222;
+  --vt-c-black-mute: #282828;
+
+  --vt-c-indigo: #2c3e50;
+
+  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+  --vt-c-text-light-1: var(--vt-c-indigo);
+  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+  --vt-c-text-dark-1: var(--vt-c-white);
+  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+}
+
+/* semantic color variables for this project */
+:root {
+  --color-background: #0a0a0a;
+  --color-background-soft: #111111;
+  --color-background-mute: #1a1a1a;
+
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-hover: rgba(255, 255, 255, 0.2);
+
+  --color-heading: #ffffff;
+  --color-text: #e5e5e5;
+
+  --section-gap: 160px;
+
+  /* Theme-aware variables */
+  --bg-page: #0a0a0a;
+  --bg-section: #000000;
+  --bg-section-rgb: 0, 0, 0;
+  --bg-section-alpha: 0.92;
+  --bg-card: rgba(0, 0, 0, 0.2);
+  --bg-input: rgba(255, 255, 255, 0.03);
+  --bg-visual: rgba(255, 255, 255, 0.02);
+  --bg-tagline: #000000;
+
+  --text-rgb: 255, 255, 255;
+  --text-primary: #ffffff;
+  --text-secondary: #e5e5e5;
+  --text-muted: #a3a3a3;
+  --text-on-accent: #000000;
+
+  --border-rgb: 255, 255, 255;
+  --border-color: rgba(255, 255, 255, 0.10);
+  --border-color-hover: rgba(208, 255, 0, 0.35);
+
+  --accent-color: #D0FF00;
+  --accent-rgb: 208, 255, 0;
+
+  --overlay-bg: rgba(0, 0, 0, 0.35);
+  --overlay-bg-mobile: rgba(0, 0, 0, 0.45);
+
+  --shadow-rgb: 10, 12, 2;
+}
+
+[data-theme="light"] {
+  --bg-page: #f0f0f0;
+  --bg-section: #ffffff;
+  --bg-section-rgb: 255, 255, 255;
+  --bg-section-alpha: 0.95;
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --bg-input: rgba(0, 0, 0, 0.03);
+  --bg-visual: rgba(0, 0, 0, 0.02);
+  --bg-tagline: #ffffff;
+
+  --text-rgb: 0, 0, 0;
+  --text-primary: #000000;
+  --text-secondary: #111111;
+  --text-muted: #555555;
+  --text-on-accent: #000000;
+
+  --border-rgb: 0, 0, 0;
+  --border-color: rgba(0, 0, 0, 0.10);
+  --border-color-hover: rgba(90, 158, 0, 0.5);
+
+  --accent-color: #5a9e00;
+  --accent-rgb: 90, 158, 0;
+
+  --overlay-bg: rgba(0, 0, 0, 0.35);
+  --overlay-bg-mobile: rgba(0, 0, 0, 0.45);
+
+  --shadow-rgb: 60, 70, 10;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--text-secondary);
+  background: var(--bg-page);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.6;
+  font-family: 'Lexend', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
