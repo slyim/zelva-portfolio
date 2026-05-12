@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { publicUrl } from '../utils/publicUrl'
 
 const props = defineProps<{
   title: string
@@ -18,8 +19,8 @@ const isVideo = computed(() => props.image?.match(/\.(mp4|webm|ogg)$/i))
   <div class="gallery-card" :style="{ aspectRatio: aspectRatio || '4/3' }" @click="$emit('click')">
     <div class="card-image">
       <video
-        v-if="isVideo"
-        :src="image"
+        v-if="isVideo && image"
+        :src="publicUrl(image)"
         autoplay
         loop
         muted
@@ -27,7 +28,7 @@ const isVideo = computed(() => props.image?.match(/\.(mp4|webm|ogg)$/i))
       />
       <img
         v-else-if="image"
-        :src="image"
+        :src="publicUrl(image)"
         :alt="title"
         loading="lazy"
       />

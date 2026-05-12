@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { tools } from '../content/tools'
+import { publicUrl } from '../utils/publicUrl'
 </script>
 
 <template>
@@ -24,7 +25,7 @@ import { tools } from '../content/tools'
           class="tool-card"
         >
           <div class="tool-icon-wrap">
-            <img :src="tool.icon" :alt="tool.name" class="tool-icon" loading="lazy" />
+            <img :src="publicUrl(tool.icon)" :alt="tool.name" class="tool-icon" loading="lazy" />
           </div>
           <div class="tool-divider" />
           <span class="tool-name">{{ tool.name }}</span>

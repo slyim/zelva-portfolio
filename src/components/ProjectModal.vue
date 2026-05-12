@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { publicUrl } from '../utils/publicUrl'
 
 const props = defineProps<{
   isOpen: boolean
@@ -78,8 +79,8 @@ function isVideo(url: string) {
                   v-scroll-reveal="{ delay: i * 80 }"
                   class="project-image-wrap"
                 >
-                  <video v-if="isVideo(img)" :src="img" controls autoplay loop playsinline></video>
-                  <img v-else :src="img" :alt="`${title} — image ${i + 1}`" loading="lazy" />
+                  <video v-if="isVideo(img)" :src="publicUrl(img)" controls autoplay loop playsinline></video>
+                  <img v-else :src="publicUrl(img)" :alt="`${title} — image ${i + 1}`" loading="lazy" />
                 </div>
                 <div v-if="!images.length" class="project-image-wrap project-image-empty">
                   <span>No images yet</span>
