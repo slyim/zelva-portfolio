@@ -9,7 +9,7 @@
       // GitHub Pages serves a 404. This script redirects to index.html
       // with the original path preserved as a query parameter,
       // which index.html then picks up and restores via History API.
-      var pathSegmentsToKeep = 1; // Keep /zelva-portfolio/ base
+      var pathSegmentsToKeep = 0; // Keep / base
       var l = window.location;
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +

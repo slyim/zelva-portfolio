@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://slyim.github.io/zelva-portfolio/</loc>
+    <loc>https://zelva.design</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://slyim.github.io/zelva-portfolio/artworks</loc>
+    <loc>https://zelva.design/artworks</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://slyim.github.io/zelva-portfolio/designs</loc>
+    <loc>https://zelva.design/designs</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://slyim.github.io/zelva-portfolio/creative-coding</loc>
+    <loc>https://zelva.design/creative-coding</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://slyim.github.io/zelva-portfolio/photography</loc>
+    <loc>https://zelva.design/photography</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://slyim.github.io/zelva-portfolio/soundscapes</loc>
+    <loc>https://zelva.design/soundscapes</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
