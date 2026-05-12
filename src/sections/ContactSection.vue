@@ -7,13 +7,38 @@ import { PhEnvelopeSimple, PhUser } from '@phosphor-icons/vue'
 const email = ref('')
 const name = ref('')
 const message = ref('')
+const isSubmitting = ref(false)
 
-function handleSubmit() {
-  // Placeholder for form submission
-  alert('Shoutout sent! I will get back to you soon.')
-  email.value = ''
-  name.value = ''
-  message.value = ''
+async function handleSubmit() {
+  isSubmitting.value = true
+  try {
+    const response = await fetch('https://formsubmit.co/ajax/shylesian@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email.value,
+        name: name.value,
+        message: message.value,
+        _replyto: email.value
+      })
+    })
+
+    if (response.ok) {
+      alert('Shoutout sent! I will get back to you soon.')
+      email.value = ''
+      name.value = ''
+      message.value = ''
+    } else {
+      alert('Oops! There was a problem sending your shoutout. Please try again.')
+    }
+  } catch (error) {
+    alert('Oops! Network error. Please try again later.')
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
@@ -71,7 +96,9 @@ function handleSubmit() {
             />
           </div>
 
-          <button type="submit" class="shoutout-btn">Shoutout!</button>
+          <button type="submit" class="shoutout-btn" :disabled="isSubmitting">
+            {{ isSubmitting ? 'Sending...' : 'Shoutout!' }}
+          </button>
         </form>
 
         <!-- Right: Visual Card -->
