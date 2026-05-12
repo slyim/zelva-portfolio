@@ -43,6 +43,10 @@ onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
   document.body.style.overflow = ''
 })
+
+function isVideo(url: string) {
+  return url.match(/\.(mp4|webm|ogg)$/i)
+}
 </script>
 
 <template>
@@ -74,7 +78,8 @@ onUnmounted(() => {
                   v-scroll-reveal="{ delay: i * 80 }"
                   class="project-image-wrap"
                 >
-                  <img :src="img" :alt="`${title} — image ${i + 1}`" loading="lazy" />
+                  <video v-if="isVideo(img)" :src="img" controls autoplay loop playsinline></video>
+                  <img v-else :src="img" :alt="`${title} — image ${i + 1}`" loading="lazy" />
                 </div>
                 <div v-if="!images.length" class="project-image-wrap project-image-empty">
                   <span>No images yet</span>
@@ -219,14 +224,16 @@ onUnmounted(() => {
   background: var(--bg-card);
 }
 
-.project-image-wrap img {
+.project-image-wrap img,
+.project-image-wrap video {
   width: 100%;
   height: auto;
   display: block;
   transition: transform 0.6s ease;
 }
 
-.project-image-wrap:hover img {
+.project-image-wrap:hover img,
+.project-image-wrap:hover video {
   transform: scale(1.01);
 }
 

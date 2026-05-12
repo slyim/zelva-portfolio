@@ -9,24 +9,23 @@ export interface SketchModule {
  *
  * The returned cleanup function is called when the sketch should stop.
  *
- * @param path Absolute URL path to the sketch (e.g. '/sketches/particle-flow.js')
+ * @param loader A function that dynamically imports the sketch module
  * @param canvas The canvas element to attach the sketch to
- * @returns Cleanup function, or null if loading failed / no path provided
+ * @returns Cleanup function, or null if loading failed / no loader provided
  */
 export async function loadSketch(
-  path: string,
+  loader: (() => Promise<any>) | undefined,
   canvas: HTMLCanvasElement
 ): Promise<(() => void) | null> {
-  if (!path) return null
+  if (!loader) return null
   try {
-    // @vite-ignore
-    const mod = (await import(path)) as SketchModule
+    const mod = (await loader()) as SketchModule
     if (typeof mod.default === 'function') {
       const cleanup = mod.default(canvas)
       return typeof cleanup === 'function' ? cleanup : null
     }
   } catch (err) {
-    console.warn('[sketchLoader] Failed to load sketch:', path, err)
+    console.warn('[sketchLoader] Failed to load sketch:', err)
   }
   return null
 }

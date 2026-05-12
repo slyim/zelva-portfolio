@@ -69,8 +69,8 @@ async function startAnimation(index: number) {
   if (!project) return
 
   // Try loading custom p5 sketch if available
-  if (project.p5Script) {
-    const cleanup = await loadSketch(project.p5Script, canvas)
+  if (project.loadSketch) {
+    const cleanup = await loadSketch(project.loadSketch, canvas)
     if (cleanup) {
       sketchCleanups.value[index] = cleanup
       return
@@ -121,8 +121,8 @@ async function openModal(project: CreativeProject, _index: number) {
     resizeCanvas(canvas)
 
     // Try loading custom sketch
-    if (project.p5Script) {
-      const cleanup = await loadSketch(project.p5Script, canvas)
+    if (project.loadSketch) {
+      const cleanup = await loadSketch(project.loadSketch, canvas)
       if (cleanup) {
         modalSketchCleanup = cleanup
         return

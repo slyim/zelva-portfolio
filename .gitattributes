@@ -1,1 +1,3 @@
 * text=auto eol=lf
+public/soundscapes/*.mp4 filter=lfs diff=lfs merge=lfs -text
+public/photography/**/*.jpg filter=lfs diff=lfs merge=lfs -text

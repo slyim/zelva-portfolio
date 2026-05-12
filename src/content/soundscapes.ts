@@ -24,38 +24,17 @@ export interface SoundscapeProject {
 
 export const soundscapeProjects: SoundscapeProject[] = [
   {
-    title: 'Ambient Soundscape — Night Drive',
-    description: 'An immersive ambient composition evoking the solitude and neon glow of late-night drives.',
-    coverImage: '',
-    images: [],
-    tags: ['Ambient', 'Composition'],
+    title: 'Gris Soundscape',
+    description: 'A deeply emotional and atmospheric soundscape created for Gris. Featuring immersive ambient layers and melodic progressions designed to carry the listener through an evocative sonic journey.',
+    coverImage: '/soundscapes/grissoundscape.mp4',
+    images: ['/soundscapes/grissoundscape.mp4'],
+    tags: ['Soundscape', 'Video', 'Ambient'],
   },
   {
-    title: 'Electronic Composition — Pulse',
-    description: 'Rhythm-driven electronic piece exploring syncopation and synthetic textures.',
-    coverImage: '',
-    images: [],
-    tags: ['Electronic', 'Rhythm'],
-  },
-  {
-    title: 'Foley Design — Urban Spaces',
-    description: 'Custom foley and sound design capturing the tactile audio of urban environments.',
-    coverImage: '',
-    images: [],
-    tags: ['Foley', 'Sound Design'],
-  },
-  {
-    title: 'Generative Audio — Patterns',
-    description: 'Algorithmically generated audio patterns creating ever-evolving sonic landscapes.',
-    coverImage: '',
-    images: [],
-    tags: ['Generative', 'Experimental'],
-  },
-  {
-    title: 'Cinematic Score — Solitude',
-    description: 'Orchestral cinematic piece written for an imaginary film about isolation and hope.',
-    coverImage: '',
-    images: [],
-    tags: ['Cinematic', 'Orchestral'],
+    title: 'Horrorscape',
+    description: 'A chilling, tension-driven sound design piece built from dark ambient textures, unsettling foley, and carefully crafted spatial audio to evoke dread and unease.',
+    coverImage: '/soundscapes/horrorscape.mp4',
+    images: ['/soundscapes/horrorscape.mp4'],
+    tags: ['Sound Design', 'Video', 'Horror', 'Dark Ambient'],
   },
 ]

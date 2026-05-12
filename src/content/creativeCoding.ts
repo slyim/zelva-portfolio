@@ -17,14 +17,33 @@
 export interface CreativeProject {
   title: string
   description: string
-  p5Script?: string
+  loadSketch?: () => Promise<any>
 }
 
 export const creativeProjects: CreativeProject[] = [
-  { title: 'Particle Flow', description: 'p5.js generative particles' },
-  { title: 'Perlin Terrain', description: '3D noise landscape' },
-  { title: 'Fractal Tree', description: 'Recursive branching system' },
-  { title: 'Wave Interference', description: 'Sine wave collision' },
-  { title: 'Game of Life', description: 'Cellular automaton' },
-  { title: 'Boids Flocking', description: 'Emergent behavior swarm' },
+  { 
+    title: 'Conditionals CD', 
+    description: 'Interactive shape splitting and particle flow based on mouse position.',
+    loadSketch: () => import('../sketches/conditionals-cd.js')
+  },
+  { 
+    title: 'Gradient Square', 
+    description: 'Overlapping translucent geometry creating a deep, textured gradient.',
+    loadSketch: () => import('../sketches/gradient-square.js')
+  },
+  { 
+    title: 'Magic Bouncing Ball', 
+    description: 'A ball that bounces off walls and flees from the cursor, leaving a colorful trail.',
+    loadSketch: () => import('../sketches/magic-bouncing-ball.js')
+  },
+  { 
+    title: 'Jumping Rect', 
+    description: 'An elusive, color-shifting square that randomly jumps away when approached.',
+    loadSketch: () => import('../sketches/jumping-rect.js')
+  },
+  { 
+    title: 'Gradient Colors', 
+    description: 'A smooth transition from vibrant green to deep red mapping across the canvas.',
+    loadSketch: () => import('../sketches/gradient-colors.js')
+  }
 ]

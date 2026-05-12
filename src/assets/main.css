@@ -59,3 +59,17 @@ a:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* ===== SCROLL REVEAL ANIMATIONS ===== */
+.reveal-hidden {
+  opacity: 0;
+  transform: var(--reveal-transform, translateY(30px));
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}

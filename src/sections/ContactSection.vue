@@ -22,7 +22,7 @@ function handleSubmit() {
     <div class="contact-inner">
       <!-- Heading -->
       <div v-scroll-reveal class="contact-heading">
-        <img :src="'/signature.png'" alt="Zelva signature" class="signature-img" loading="lazy" />
+
         <h2 class="contact-title">
           <span class="heading-gradient">CONTACT ME!</span>
         </h2>
@@ -116,12 +116,7 @@ function handleSubmit() {
   gap: 4px;
 }
 
-.signature-img {
-  max-width: 200px;
-  height: auto;
-  object-fit: contain;
-  margin-bottom: 4px;
-}
+
 
 .contact-title {
   font-family: 'Lexend', sans-serif;
@@ -239,18 +234,41 @@ function handleSubmit() {
   font-weight: 800;
   letter-spacing: 0.04em;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   transition:
-    transform 0.2s ease,
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.3s ease;
 }
 
+.shoutout-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+}
+
 .shoutout-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(var(--accent-rgb), 0.35);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(var(--accent-rgb), 0.4), 0 0 16px rgba(var(--accent-rgb), 0.2);
+}
+
+.shoutout-btn:hover::before {
+  left: 200%;
 }
 
 .shoutout-btn:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
 
 /* Visual Card */

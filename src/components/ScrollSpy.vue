@@ -23,8 +23,17 @@ function scrollTo(id: string) {
 
 let observers: IntersectionObserver[] = []
 
+function handleScroll() {
+  const scrollBottom = window.scrollY + window.innerHeight
+  const docHeight = document.documentElement.scrollHeight
+  // If the user is within 80px of the bottom, force Contact active
+  if (docHeight - scrollBottom < 80) {
+    activeId.value = 'contact'
+  }
+}
+
 onMounted(() => {
-  const opts = { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+  const opts = { rootMargin: '-35% 0px -40% 0px', threshold: 0 }
   sections.forEach(({ id }) => {
     const el = document.getElementById(id)
     if (!el) return
@@ -36,10 +45,12 @@ onMounted(() => {
     obs.observe(el)
     observers.push(obs)
   })
+  window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
   observers.forEach((obs) => obs.disconnect())
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>
 

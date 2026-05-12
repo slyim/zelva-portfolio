@@ -77,18 +77,9 @@ class Particle {
   draw() {
     if (!ctx) return
     const alpha = Math.max(0, Math.min(this.opacity, this.maxOpacity))
-    ctx.beginPath()
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
     ctx.fillStyle = `rgba(${this.r}, ${this.g}, ${this.b}, ${alpha})`
-    ctx.fill()
-
-    // Soft glow for larger sparkles
-    if (this.size > 0.9) {
-      ctx.beginPath()
-      ctx.arc(this.x, this.y, this.size * 3.5, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(${this.r}, ${this.g}, ${this.b}, ${alpha * 0.06})`
-      ctx.fill()
-    }
+    // Use fillRect instead of arc for massive performance boost on tiny particles
+    ctx.fillRect(this.x - this.size, this.y - this.size, this.size * 2, this.size * 2)
   }
 }
 

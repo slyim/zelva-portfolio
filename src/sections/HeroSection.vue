@@ -65,16 +65,17 @@ function scrollToContact() {
 
     <!-- Content Layer -->
     <div class="hero-content">
-      <p class="hero-tagline">
+      <p v-scroll-reveal="{ delay: 200, origin: 'bottom' }" class="hero-tagline">
         S Class Designer <span class="tagline-star">✦</span>
       </p>
 
-      <h1 class="hero-title">
+      <h1 v-scroll-reveal="{ delay: 400, origin: 'bottom' }" class="hero-title">
         <span class="title-white">HI, I'M</span>
         <span class="title-green"> ZELVA</span>
       </h1>
 
       <button
+        v-scroll-reveal="{ delay: 600, origin: 'bottom' }"
         class="hero-cta-btn"
         @click="scrollToContact"
       >
@@ -235,16 +236,39 @@ function scrollToContact() {
   font-weight: 800;
   letter-spacing: 0.06em;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.hero-cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
 }
 
 .hero-cta-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(var(--accent-rgb), 0.35);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 16px 40px rgba(var(--accent-rgb), 0.4), 0 0 20px rgba(var(--accent-rgb), 0.2);
+}
+
+.hero-cta-btn:hover::before {
+  left: 200%;
 }
 
 .hero-cta-btn:active {
-  transform: translateY(0) scale(1);
+  transform: translateY(0) scale(0.98);
 }
 
 /* Responsive */

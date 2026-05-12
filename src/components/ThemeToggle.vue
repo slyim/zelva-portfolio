@@ -24,6 +24,7 @@ onMounted(() => {
 
 <template>
   <button
+    v-scroll-reveal="{ origin: 'bottom', distance: '20px' }"
     class="theme-toggle"
     :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
     @click="toggleTheme"

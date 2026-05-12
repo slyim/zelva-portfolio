@@ -1,5 +1,7 @@
 <script setup lang="ts">
-defineProps<{
+import { computed } from 'vue'
+
+const props = defineProps<{
   title: string
   image?: string
   aspectRatio?: string
@@ -8,13 +10,23 @@ defineProps<{
 defineEmits<{
   click: []
 }>()
+
+const isVideo = computed(() => props.image?.match(/\.(mp4|webm|ogg)$/i))
 </script>
 
 <template>
   <div class="gallery-card" :style="{ aspectRatio: aspectRatio || '4/3' }" @click="$emit('click')">
     <div class="card-image">
+      <video
+        v-if="isVideo"
+        :src="image"
+        autoplay
+        loop
+        muted
+        playsinline
+      />
       <img
-        v-if="image"
+        v-else-if="image"
         :src="image"
         :alt="title"
         loading="lazy"
@@ -51,14 +63,16 @@ defineEmits<{
   height: 100%;
 }
 
-.card-image img {
+.card-image img,
+.card-image video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
 }
 
-.gallery-card:hover .card-image img {
+.gallery-card:hover .card-image img,
+.gallery-card:hover .card-image video {
   transform: scale(1.05);
 }
 

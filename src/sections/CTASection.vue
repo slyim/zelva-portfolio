@@ -115,7 +115,26 @@ const emit = defineEmits<{
   text-decoration: none;
   cursor: pointer;
   border: none;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
 }
 
 .cta-btn-gradient {
@@ -124,12 +143,16 @@ const emit = defineEmits<{
 }
 
 .cta-btn-gradient:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(var(--accent-rgb), 0.35);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 16px 40px rgba(var(--accent-rgb), 0.4), 0 0 20px rgba(var(--accent-rgb), 0.2);
+}
+
+.cta-btn-gradient:hover::before {
+  left: 200%;
 }
 
 .cta-btn-gradient:active {
-  transform: translateY(0) scale(1);
+  transform: translateY(0) scale(0.98);
 }
 
 /* Responsive */

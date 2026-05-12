@@ -22,7 +22,7 @@
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  /* Removed filter: blur(80px) for massive performance improvement. Radial-gradient already creates a soft edge! */
   opacity: 0.35;
   will-change: transform;
 }
@@ -86,7 +86,6 @@
 /* Light mode: subtler orbs */
 html[data-theme="light"] .orb {
   opacity: 0.2;
-  filter: blur(100px);
 }
 
 html[data-theme="light"] .orb-1 {

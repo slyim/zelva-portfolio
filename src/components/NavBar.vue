@@ -37,12 +37,18 @@ function lerp(start: number, end: number, factor: number) {
 }
 
 function animate() {
-  currentX = lerp(currentX, mouseX, 0.18)
-  currentY = lerp(currentY, mouseY, 0.18)
+  const dx = mouseX - currentX
+  const dy = mouseY - currentY
 
-  if (navContainer.value) {
-    navContainer.value.style.setProperty('--mouse-x', `${currentX}px`)
-    navContainer.value.style.setProperty('--mouse-y', `${currentY}px`)
+  // Only update and set style if there's a meaningful change
+  if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+    currentX += dx * 0.18
+    currentY += dy * 0.18
+
+    if (navContainer.value) {
+      navContainer.value.style.setProperty('--mouse-x', `${currentX}px`)
+      navContainer.value.style.setProperty('--mouse-y', `${currentY}px`)
+    }
   }
 
   rafId = requestAnimationFrame(animate)
@@ -88,7 +94,7 @@ onUnmounted(() => {
 
 <template>
   <nav class="navbar">
-    <div ref="navContainer" class="nav-container">
+    <div v-scroll-reveal="{ origin: 'top', distance: '20px' }" ref="navContainer" class="nav-container">
       <RouterLink to="/" class="nav-logo" :class="{ active: isActive('/') }">
         <PhHouse :size="24" :weight="isActive('/') ? 'fill' : 'regular'" />
       </RouterLink>

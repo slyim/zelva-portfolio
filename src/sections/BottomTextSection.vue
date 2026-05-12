@@ -3,7 +3,7 @@
 
 <template>
   <section class="bottom-text-section" aria-label="Scroll prompt">
-    <div class="text-stack">
+    <div v-scroll-reveal="{ delay: 800, origin: 'bottom', distance: '20px' }" class="text-stack">
       <span class="scroll-text text-top">CHECK OUT</span>
       <span class="scroll-text text-mid">DOWN</span>
       <span class="scroll-text text-btm">GO!</span>

@@ -24,38 +24,32 @@ export interface DesignProject {
 
 export const designProjects: DesignProject[] = [
   {
-    title: 'Gris Trailer / Student Work',
-    description: 'A motion design trailer inspired by the game Gris, exploring emotion through color and movement.',
-    coverImage: '',
-    images: [],
-    tags: ['Motion', 'Student Work'],
+    title: 'UFOCAR Dashboard',
+    description: 'A sleek, futuristic car dashboard interface featuring comprehensive navigation, climate control, media playback, and vehicle telemetry displayed with a vibrant neon green aesthetic and dark mode styling.',
+    coverImage: '/designs/ufocar/1.jpg',
+    images: [
+      '/designs/ufocar/1.jpg',
+      '/designs/ufocar/2.jpg',
+      '/designs/ufocar/3.jpg'
+    ],
+    tags: ['UI/UX', 'Automotive', 'Dashboard', 'Dark Mode']
   },
   {
-    title: 'Brand Identity System',
-    description: 'Complete brand identity including logo, typography, color system, and application guidelines.',
-    coverImage: '',
-    images: [],
-    tags: ['Branding', 'Identity'],
+    title: 'Odyssey Infographic',
+    description: 'A comprehensive educational infographic detailing the epic journey of Odysseus. Features custom illustrations, story timeline beats, character profiles, and a "Favor Meter" tracking the wrath of Poseidon and favor of Athena.',
+    coverImage: '/designs/odyssey/1.png',
+    images: [
+      '/designs/odyssey/1.png'
+    ],
+    tags: ['Infographic', 'Illustration', 'Educational', 'Mythology']
   },
   {
-    title: 'Mobile App UI Kit',
-    description: 'A comprehensive UI kit designed for a productivity-focused mobile application.',
-    coverImage: '',
-    images: [],
-    tags: ['UI/UX', 'Mobile'],
-  },
-  {
-    title: 'Editorial Layout Design',
-    description: 'Magazine and editorial layout explorations focusing on grid systems and typographic hierarchy.',
-    coverImage: '',
-    images: [],
-    tags: ['Editorial', 'Print'],
-  },
-  {
-    title: 'Motion Graphics Reel',
-    description: 'Collection of motion graphics pieces showcasing animation principles and visual storytelling.',
-    coverImage: '',
-    images: [],
-    tags: ['Motion', 'Animation'],
-  },
+    title: 'Rome Map Infographic',
+    description: 'An engaging 3D isometric map infographic of Rome. It beautifully highlights major historical landmarks, provides a timeline from The Colosseum to Altarre Della Patria, and explores Italy\'s rich culture and history.',
+    coverImage: '/designs/rome/1.png',
+    images: [
+      '/designs/rome/1.png'
+    ],
+    tags: ['Infographic', 'Isometric', 'Map Design', 'History']
+  }
 ]

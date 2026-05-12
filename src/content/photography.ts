@@ -24,59 +24,18 @@ export interface Photo {
 
 export const photos: Photo[] = [
   {
-    title: 'Golden Hour Portrait',
-    description: 'Natural light portrait session captured during the final moments of sunset.',
-    coverImage: '',
-    images: [],
-    tags: ['Portrait', 'Natural Light'],
-  },
-  {
-    title: 'Urban Geometry',
-    description: 'Architectural photography exploring lines, shapes, and the rhythm of city structures.',
-    coverImage: '',
-    images: [],
-    tags: ['Architecture', 'Urban'],
-  },
-  {
-    title: 'Nature Macro',
-    description: 'Close-up exploration of natural textures and organic patterns often overlooked.',
-    coverImage: '',
-    images: [],
-    tags: ['Macro', 'Nature'],
-  },
-  {
-    title: 'Street Stories',
-    description: 'Candid street photography capturing fleeting human moments in public spaces.',
-    coverImage: '',
-    images: [],
-    tags: ['Street', 'Documentary'],
-  },
-  {
-    title: 'Night Lights',
-    description: 'Long-exposure night photography exploring artificial light and urban darkness.',
-    coverImage: '',
-    images: [],
-    tags: ['Night', 'Long Exposure'],
-  },
-  {
-    title: 'Minimal Still Life',
-    description: 'Minimalist still life compositions focusing on form, shadow, and negative space.',
-    coverImage: '',
-    images: [],
-    tags: ['Still Life', 'Minimal'],
-  },
-  {
-    title: 'Travel Diaries',
-    description: 'A visual diary from travels, capturing culture, landscape, and local atmosphere.',
-    coverImage: '',
-    images: [],
-    tags: ['Travel', 'Documentary'],
-  },
-  {
-    title: 'Shadow Play',
-    description: 'Experimental photography using harsh light sources to create dramatic shadow patterns.',
-    coverImage: '',
-    images: [],
-    tags: ['Experimental', 'Light'],
-  },
+    title: 'Urban Textures & Decay',
+    description: 'A photographic exploration of urban decay, found art, and the subtle textures of city life. This collection captures the often-overlooked details of the streets, from faded paint and rust to water stains and animal footprints cast in concrete.',
+    coverImage: '/photography/urban-textures/20231011_080122.jpg',
+    images: [
+      '/photography/urban-textures/20231004_180118.jpg',
+      '/photography/urban-textures/20231004_180153.jpg',
+      '/photography/urban-textures/20231005_170639.jpg',
+      '/photography/urban-textures/20231005_184115.jpg',
+      '/photography/urban-textures/20231008_181833.jpg',
+      '/photography/urban-textures/20231009_201554.jpg',
+      '/photography/urban-textures/20231011_080122.jpg'
+    ],
+    tags: ['Urban', 'Macro', 'Textures', 'Found Art']
+  }
 ]
