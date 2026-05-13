@@ -1,58 +1,24 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
 import GlassCard from '../components/GlassCard.vue'
 import { useI18n } from '../i18n'
 
 const { t } = useI18n()
 
-// Skill nodes with positions (percentages)
 const skillNodes = [
-  { id: 'uiux', label: 'UI/UX', x: 50, y: 20, size: 1.2 },
-  { id: 'code', label: 'Creative Coding', x: 20, y: 40, size: 1.0 },
-  { id: 'photo', label: 'Photography', x: 80, y: 35, size: 1.0 },
-  { id: 'sound', label: 'Sound Design', x: 35, y: 70, size: 1.1 },
-  { id: 'illust', label: 'Illustration', x: 70, y: 65, size: 1.0 },
-  { id: 'motion', label: 'Motion', x: 50, y: 50, size: 0.9 },
-  { id: 'frontend', label: 'Frontend', x: 15, y: 65, size: 0.9 },
-  { id: 'brand', label: 'Branding', x: 85, y: 55, size: 0.9 },
+  { id: 'uiux', label: 'UI/UX' },
+  { id: 'code', label: 'Creative Coding' },
+  { id: 'photo', label: 'Photography' },
+  { id: 'sound', label: 'Sound Design' },
+  { id: 'illust', label: 'Illustration' },
+  { id: 'motion', label: 'Motion' },
+  { id: 'frontend', label: 'Frontend' },
+  { id: 'brand', label: 'Branding' },
 ]
 
-// Connections between skills
-const connections = [
-  ['uiux', 'code'],
-  ['uiux', 'brand'],
-  ['code', 'frontend'],
-  ['code', 'motion'],
-  ['photo', 'illust'],
-  ['sound', 'motion'],
-  ['illust', 'brand'],
-  ['uiux', 'motion'],
-  ['frontend', 'sound'],
-]
-
-const activeSkill = ref<string | null>(null)
-const selectedSkill = ref<string | null>(null)
-const mousePos = ref({ x: 0, y: 0 })
-const constellationRef = ref<HTMLDivElement | null>(null)
-
-function handleMouseMove(e: MouseEvent) {
-  if (!constellationRef.value) return
-  const rect = constellationRef.value.getBoundingClientRect()
-  mousePos.value = {
-    x: ((e.clientX - rect.left) / rect.width) * 100,
-    y: ((e.clientY - rect.top) / rect.height) * 100,
-  }
-}
-
-function selectSkill(id: string) {
-  selectedSkill.value = selectedSkill.value === id ? null : id
-}
-
-// Project data for each skill
 const skillProjects: Record<string, { title: string; items: string[] }> = {
   uiux: {
     title: 'UI/UX Projects',
-    items: ['UFOCAR Dashboard', 'Seer — Tarot App', 'Artstation Redefined', 'InterMuse'],
+    items: ['UFOCAR Dashboard', 'Seer Tarot App', 'Artstation Redefined', 'InterMuse'],
   },
   code: {
     title: 'Creative Coding',
@@ -83,33 +49,6 @@ const skillProjects: Record<string, { title: string; items: string[] }> = {
     items: ['Zelva Identity System', 'Logo Design', 'Color Theory', 'Typography Systems'],
   },
 }
-
-function isConnectedToSelected(nodeId: string): boolean {
-  if (!selectedSkill.value) return false
-  return connections.some(
-    (c) =>
-      (c[0] === selectedSkill.value && c[1] === nodeId) ||
-      (c[1] === selectedSkill.value && c[0] === nodeId)
-  )
-}
-
-// Animated floating particles
-const particles = ref<Array<{ x: number; y: number; size: number; speed: number; opacity: number }>>([])
-
-onMounted(() => {
-  // Generate random particles
-  particles.value = Array.from({ length: 30 }, () => ({
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 2 + 1,
-    speed: Math.random() * 0.3 + 0.1,
-    opacity: Math.random() * 0.4 + 0.1,
-  }))
-})
-
-onUnmounted(() => {
-  // Cleanup if needed
-})
 </script>
 
 <template>
@@ -150,120 +89,29 @@ onUnmounted(() => {
         </GlassCard>
       </div>
 
-      <!-- Interactive Skill Constellation -->
-      <div class="constellation-section">
+      <!-- Skills Grid -->
+      <div class="skills-section">
         <h2 v-scroll-reveal class="section-heading">
-          <span class="heading-gradient">SKILL CONSTELLATION</span>
+          <span class="heading-gradient">WHAT I DO</span>
         </h2>
-        <p v-scroll-reveal="{ delay: 100 }" class="section-subtitle">
-          Click any star to explore
-        </p>
 
-        <div
-          ref="constellationRef"
-          v-scroll-reveal="{ delay: 200 }"
-          class="constellation-map"
-          @mousemove="handleMouseMove"
-          @mouseleave="activeSkill = null"
-        >
-          <!-- Background particles -->
+        <div class="skills-grid">
           <div
-            v-for="(p, i) in particles"
-            :key="i"
-            class="particle"
-            :style="{
-              left: p.x + '%',
-              top: p.y + '%',
-              width: p.size + 'px',
-              height: p.size + 'px',
-              opacity: p.opacity,
-              animationDuration: (20 / p.speed) + 's'
-            }"
-          />
-
-          <!-- Connection lines -->
-          <svg class="connections-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="rgba(var(--accent-rgb), 0)" />
-                <stop offset="50%" stop-color="rgba(var(--accent-rgb), 0.3)" />
-                <stop offset="100%" stop-color="rgba(var(--accent-rgb), 0)" />
-              </linearGradient>
-            </defs>
-            <line
-              v-for="(conn, i) in connections"
-              :key="i"
-              :x1="skillNodes.find(n => n.id === conn[0])?.x"
-              :y1="skillNodes.find(n => n.id === conn[0])?.y"
-              :x2="skillNodes.find(n => n.id === conn[1])?.x"
-              :y2="skillNodes.find(n => n.id === conn[1])?.y"
-              class="connection-line"
-              :class="{ 
-                active: activeSkill === conn[0] || activeSkill === conn[1],
-                selected: selectedSkill === conn[0] || selectedSkill === conn[1]
-              }"
-            />
-            <!-- Mouse proximity line -->
-            <line
-              v-if="activeSkill"
-              :x1="skillNodes.find(n => n.id === activeSkill)?.x"
-              :y1="skillNodes.find(n => n.id === activeSkill)?.y"
-              :x2="mousePos.x"
-              :y2="mousePos.y"
-              class="cursor-line"
-            />
-          </svg>
-
-          <!-- Skill nodes -->
-          <div
-            v-for="node in skillNodes"
-            :key="node.id"
-            class="skill-node"
-            :class="{
-              active: activeSkill === node.id || selectedSkill === node.id,
-              connected: (activeSkill && connections.some(c => (c[0] === activeSkill && c[1] === node.id) || (c[1] === activeSkill && c[0] === node.id))) || isConnectedToSelected(node.id),
-              selected: selectedSkill === node.id
-            }"
-            :style="{
-              left: node.x + '%',
-              top: node.y + '%',
-              transform: `translate(-50%, -50%) scale(${node.size})`
-            }"
-            @mouseenter="activeSkill = node.id"
-            @mouseleave="activeSkill = null"
-            @click="selectSkill(node.id)"
+            v-for="(skill, i) in skillNodes"
+            :key="skill.id"
+            v-scroll-reveal="{ delay: i * 60 }"
+            class="skill-card"
           >
-            <div class="node-core"></div>
-            <div class="node-ring"></div>
-            <div class="node-label">{{ node.label }}</div>
-          </div>
-
-          <!-- Skill Tooltip Panel -->
-          <Transition name="tooltip">
-            <div
-              v-if="selectedSkill"
-              class="skill-tooltip"
-              :style="{
-                left: (skillNodes.find(n => n.id === selectedSkill)?.x ?? 50) + '%',
-                top: (skillNodes.find(n => n.id === selectedSkill)?.y ?? 50) + '%'
-              }"
-            >
-              <div class="tooltip-header">
-                <span class="tooltip-title">{{ skillProjects[selectedSkill]?.title }}</span>
-                <button class="tooltip-close" aria-label="Close" @click.stop="selectedSkill = null">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
-              </div>
-              <ul class="tooltip-list">
-                <li v-for="item in skillProjects[selectedSkill]?.items" :key="item" class="tooltip-item">
-                  {{ item }}
-                </li>
-              </ul>
+            <div class="skill-header">
+              <div class="skill-dot"></div>
+              <h3 class="skill-name">{{ skill.label }}</h3>
             </div>
-          </Transition>
+            <ul class="skill-list">
+              <li v-for="item in skillProjects[skill.id]?.items" :key="item" class="skill-item">
+                {{ item }}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -448,12 +296,12 @@ onUnmounted(() => {
   font-weight: 500;
 }
 
-/* ===== CONSTELLATION SECTION ===== */
-.constellation-section {
+/* ===== SKILLS SECTION ===== */
+.skills-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 40px;
 }
 
 .section-heading {
@@ -470,260 +318,85 @@ onUnmounted(() => {
   color: var(--accent-color);
 }
 
-.section-subtitle {
-  font-family: 'Lexend', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 400;
-  color: rgba(var(--text-rgb), 0.5);
-  letter-spacing: 0.15em;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-/* Constellation Map */
-.constellation-map {
-  position: relative;
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
   width: 100%;
-  aspect-ratio: 16/9;
-  border-radius: 20px;
-  border: 1px solid var(--border-color);
-  background: radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.03) 0%, transparent 70%);
-  overflow: hidden;
-  cursor: crosshair;
 }
 
-/* Particles */
-.particle {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(var(--accent-rgb), 0.6);
-  pointer-events: none;
-  animation: float-particle linear infinite;
-}
-
-@keyframes float-particle {
-  0% { transform: translateY(0) translateX(0); }
-  25% { transform: translateY(-20px) translateX(10px); }
-  50% { transform: translateY(-10px) translateX(-10px); }
-  75% { transform: translateY(-30px) translateX(5px); }
-  100% { transform: translateY(0) translateX(0); }
-}
-
-/* SVG Connections */
-.connections-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.connection-line {
-  stroke: rgba(var(--accent-rgb), 0.1);
-  stroke-width: 0.3;
-  transition: stroke 0.4s ease, stroke-width 0.4s ease;
-}
-
-.connection-line.active {
-  stroke: rgba(var(--accent-rgb), 0.5);
-  stroke-width: 0.6;
-}
-
-.connection-line.selected {
-  stroke: rgba(var(--accent-rgb), 0.7);
-  stroke-width: 0.8;
-}
-
-.cursor-line {
-  stroke: rgba(var(--accent-rgb), 0.2);
-  stroke-width: 0.2;
-  stroke-dasharray: 2 2;
-}
-
-/* Skill Nodes */
-.skill-node {
-  position: absolute;
-  z-index: 2;
-  cursor: pointer;
+.skill-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  gap: 20px;
+  padding: 28px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
 }
 
-.node-core {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(var(--text-rgb), 0.3);
-  transition: all 0.3s ease;
+.skill-card:hover {
+  border-color: var(--border-color-hover);
+  background: rgba(var(--accent-rgb), 0.04);
+  transform: translateY(-4px);
 }
 
-.node-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 1px solid rgba(var(--accent-rgb), 0);
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.node-label {
-  font-family: 'Lexend', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: rgba(var(--text-rgb), 0.5);
-  white-space: nowrap;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 4px;
-}
-
-.skill-node:hover .node-core,
-.skill-node.active .node-core {
-  background: var(--accent-color);
-  box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.6);
-}
-
-.skill-node:hover .node-ring,
-.skill-node.active .node-ring {
-  border-color: rgba(var(--accent-rgb), 0.4);
-  width: 32px;
-  height: 32px;
-}
-
-.skill-node:hover .node-label,
-.skill-node.active .node-label {
-  color: var(--accent-color);
-  font-weight: 600;
-}
-
-.skill-node.connected .node-core {
-  background: rgba(var(--accent-rgb), 0.5);
-}
-
-.skill-node.selected .node-core {
-  background: var(--accent-color);
-  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.8);
-}
-
-.skill-node.selected .node-ring {
-  border-color: rgba(var(--accent-rgb), 0.6);
-  width: 36px;
-  height: 36px;
-}
-
-/* Skill Tooltip */
-.skill-tooltip {
-  position: absolute;
-  z-index: 10;
-  min-width: 220px;
-  max-width: 280px;
-  padding: 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(var(--accent-rgb), 0.3);
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transform: translate(-50%, calc(-100% - 24px));
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--accent-rgb), 0.15);
-}
-
-.skill-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 8px solid transparent;
-  border-top-color: rgba(0, 0, 0, 0.85);
-}
-
-.tooltip-header {
+.skill-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(var(--border-rgb), 0.1);
 }
 
-.tooltip-title {
+.skill-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
+}
+
+.skill-name {
   font-family: 'Lexend', sans-serif;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: var(--accent-color);
+  color: var(--text-primary);
+  margin: 0;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.tooltip-close {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  border: none;
-  background: rgba(var(--border-rgb), 0.08);
-  color: rgba(var(--text-rgb), 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.tooltip-close:hover {
-  background: rgba(var(--accent-rgb), 0.15);
-  color: var(--accent-color);
-}
-
-.tooltip-list {
+.skill-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
-.tooltip-item {
+.skill-item {
   font-family: 'Lexend', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 400;
-  color: rgba(var(--text-rgb), 0.7);
-  line-height: 1.4;
-  padding-left: 12px;
+  color: rgba(var(--text-rgb), 0.55);
+  line-height: 1.5;
   position: relative;
+  padding-left: 14px;
 }
 
-.tooltip-item::before {
+.skill-item::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 6px;
+  top: 8px;
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--accent-color);
-  opacity: 0.6;
-}
-
-/* Tooltip Transition */
-.tooltip-enter-active,
-.tooltip-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.tooltip-enter-from,
-.tooltip-leave-to {
-  opacity: 0;
-  transform: translate(-50%, calc(-100% - 16px)) scale(0.95);
+  background: rgba(var(--accent-rgb), 0.5);
 }
 
 /* ===== STATS GRID ===== */
@@ -771,21 +444,19 @@ onUnmounted(() => {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 968px) {
   .bio-grid {
     grid-template-columns: 1fr;
   }
 
-  .constellation-map {
-    aspect-ratio: 4/3;
-  }
-
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .node-label {
-    font-size: 0.65rem;
   }
 }
 
@@ -798,10 +469,6 @@ onUnmounted(() => {
     gap: 60px;
   }
 
-  .constellation-map {
-    aspect-ratio: 1/1;
-  }
-
   .identity-card {
     padding: 36px 24px;
   }
@@ -812,6 +479,23 @@ onUnmounted(() => {
 
   .philosophy-text {
     font-size: 0.95rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .skill-card {
+    padding: 20px;
+  }
+
+  .skill-name {
+    font-size: 0.9rem;
+  }
+
+  .skill-item {
+    font-size: 0.75rem;
   }
 }
 
@@ -850,19 +534,34 @@ onUnmounted(() => {
     font-size: 1.8rem;
   }
 
-  .node-label {
-    font-size: 0.55rem;
-    letter-spacing: 0.05em;
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
-  .node-core {
+  .skill-card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .skill-dot {
     width: 8px;
     height: 8px;
   }
 
-  .node-ring {
-    width: 16px;
-    height: 16px;
+  .skill-name {
+    font-size: 0.8rem;
+  }
+
+  .skill-item {
+    font-size: 0.7rem;
+    padding-left: 12px;
+  }
+
+  .skill-item::before {
+    top: 6px;
+    width: 4px;
+    height: 4px;
   }
 }
 </style>

@@ -25,9 +25,9 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // About / Workflow
     'about.p1':
-      "I combine technical fluency with human intuition — designing interfaces, experiences, and systems that feel alive, not generated. Every pixel serves a purpose, every interaction tells a story.",
+      "I combine technical fluency with human intuition. I design interfaces, experiences, and systems that feel alive, not generated. Every pixel serves a purpose, every interaction tells a story.",
     'about.p2':
-      "My work sits at the intersection of design and code. I don't just visualize ideas — I build them. From generative art to production-ready interfaces, I craft experiences that are as functional as they are beautiful.",
+      "My work sits at the intersection of design and code. I don't just visualize ideas. I build them. From generative art to production-ready interfaces, I craft experiences that are as functional as they are beautiful.",
     'about.p3':
       "Design is not decoration. It's problem-solving at the highest level. I approach every project with empathy, rigor, and a refusal to settle for anything less than exceptional.",
     'workflow.heading': 'NO LIMITS',
@@ -94,9 +94,9 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // About / Workflow
     'about.p1':
-      'Ich vereine technische Fluency mit menschlicher Intuition — und entwerfe Interfaces, Erlebnisse und Systeme, die lebendig wirken, nicht generiert. Jedes Pixel hat einen Zweck, jede Interaktion erzählt eine Geschichte.',
+      'Ich vereine technische Fluency mit menschlicher Intuition. Ich entwerfe Interfaces, Erlebnisse und Systeme, die lebendig wirken, nicht generiert. Jedes Pixel hat einen Zweck, jede Interaktion erzählt eine Geschichte.',
     'about.p2':
-      'Meine Arbeit befindet sich an der Schnittstelle von Design und Code. Ich visualisiere Ideen nicht nur — ich baue sie. Von generativer Kunst bis zu produktionsreifen Interfaces schaffe ich Erlebnisse, die ebenso funktional wie schön sind.',
+      'Meine Arbeit befindet sich an der Schnittstelle von Design und Code. Ich visualisiere Ideen nicht nur. Ich baue sie. Von generativer Kunst bis zu produktionsreifen Interfaces schaffe ich Erlebnisse, die ebenso funktional wie schön sind.',
     'about.p3':
       'Design ist keine Dekoration. Es ist Problemlösung auf höchstem Niveau. Ich gehe jedes Projekt mit Empathie, Rigorosität und dem Anspruch an, nichts weniger als Exzellentes zu akzeptieren.',
     'workflow.heading': 'KEINE GRENZEN',
@@ -163,9 +163,9 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // About / Workflow
     'about.p1':
-      "Teknik yetkinliği insan sezgisiyle birleştiriyorum — canlı hissettiren, üretilmiş değil tasarlanmış arayüzler, deneyimler ve sistemler yaratıyorum. Her pikselin bir amacı var, her etkileşim bir hikaye anlatıyor.",
+      "Teknik yetkinliği insan sezgisiyle birleştiriyorum. Canlı hissettiren, üretilmiş değil tasarlanmış arayüzler, deneyimler ve sistemler yaratıyorum. Her pikselin bir amacı var, her etkileşim bir hikaye anlatıyor.",
     'about.p2':
-      'Çalışmalarım tasarım ve kodun kesişim noktasında. Fikirleri sadece görselleştirmiyorum — onları inşa ediyorum. Generatif sanattan üretime hazır arayüzlere, hem işlevsel hem güzel deneyimler yaratıyorum.',
+      'Çalışmalarım tasarım ve kodun kesişim noktasında. Fikirleri sadece görselleştirmiyorum. Onları inşa ediyorum. Generatif sanattan üretime hazır arayüzlere, hem işlevsel hem güzel deneyimler yaratıyorum.',
     'about.p3':
       'Tasarım süsleme değildir. En yüksek seviyede problem çözmektir. Her projeye empati, titizlik ve olağanüstünün altına imza atmama izin vermeyeceğim bir anlayışla yaklaşıyorum.',
     'workflow.heading': 'SINIR YOK',
