@@ -25,11 +25,11 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // About / Workflow
     'about.p1':
-      "Hi, I'm Zelva, a creative designer who believes in the value of human work & intelligence. Capable of implementing human design solutions made for humans by me in the era of AI slop.",
+      "I combine technical fluency with human intuition — designing interfaces, experiences, and systems that feel alive, not generated. Every pixel serves a purpose, every interaction tells a story.",
     'about.p2':
-      "I'm passionate about crafting experiences that feel natural, intuitive, and visually striking. Creativity is universal, and good design should work for everyone.",
+      "My work sits at the intersection of design and code. I don't just visualize ideas — I build them. From generative art to production-ready interfaces, I craft experiences that are as functional as they are beautiful.",
     'about.p3':
-      "You can't afford to replace a real professional with a tool that you have to babysit that doesn't know your brand & doesn't know human psychology. This is where real product designers shine.",
+      "Design is not decoration. It's problem-solving at the highest level. I approach every project with empathy, rigor, and a refusal to settle for anything less than exceptional.",
     'workflow.heading': 'NO LIMITS',
     'workflow.subtitle': 'PROFESSIONAL DESIGN WORKFLOW',
     'workflow.empathize': 'EMPATHIZE',
@@ -94,11 +94,11 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // About / Workflow
     'about.p1':
-      'Hi, ich bin Zelva, eine kreative Designerin, die an den Wert menschlicher Arbeit & Intelligenz glaubt. Fähig, menschliche Designlösungen für Menschen von mir im Zeitalter des AI-Mülls umzusetzen.',
+      'Ich vereine technische Fluency mit menschlicher Intuition — und entwerfe Interfaces, Erlebnisse und Systeme, die lebendig wirken, nicht generiert. Jedes Pixel hat einen Zweck, jede Interaktion erzählt eine Geschichte.',
     'about.p2':
-      'Ich bin leidenschaftlich darin, Erfahrungen zu schaffen, die sich natürlich, intuitiv und visuell beeindruckend anfühlen. Kreativität ist universell, und gutes Design sollte für alle funktionieren.',
+      'Meine Arbeit befindet sich an der Schnittstelle von Design und Code. Ich visualisiere Ideen nicht nur — ich baue sie. Von generativer Kunst bis zu produktionsreifen Interfaces schaffe ich Erlebnisse, die ebenso funktional wie schön sind.',
     'about.p3':
-      'Sie können es sich nicht leisten, einen echten Profi durch ein Werkzeug zu ersetzen, das Sie beaufsichtigen müssen, das Ihre Marke nicht kennt und die menschliche Psychologie nicht versteht. Hier glänzen echte Produktdesignerinnen.',
+      'Design ist keine Dekoration. Es ist Problemlösung auf höchstem Niveau. Ich gehe jedes Projekt mit Empathie, Rigorosität und dem Anspruch an, nichts weniger als Exzellentes zu akzeptieren.',
     'workflow.heading': 'KEINE GRENZEN',
     'workflow.subtitle': 'PROFESSIONELLER DESIGN-WORKFLOW',
     'workflow.empathize': 'EINFÜHLEN',
@@ -163,11 +163,11 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // About / Workflow
     'about.p1':
-      "Merhaba, ben Zelva, insan emeğinin ve zekasının değerine inanan yaratıcı bir tasarımcıyım. AI çöplüğü çağında insanlar için insan tasarım çözümleri uygulayabilecek kapasitedeyim.",
+      "Teknik yetkinliği insan sezgisiyle birleştiriyorum — canlı hissettiren, üretilmiş değil tasarlanmış arayüzler, deneyimler ve sistemler yaratıyorum. Her pikselin bir amacı var, her etkileşim bir hikaye anlatıyor.",
     'about.p2':
-      'Doğal, sezgisel ve görsel olarak çarpıcı hissettiren deneyimler yaratmak konusunda tutkulum. Yaratıcılık evrenseldir ve iyi tasarım herkes için çalışmalıdır.',
+      'Çalışmalarım tasarım ve kodun kesişim noktasında. Fikirleri sadece görselleştirmiyorum — onları inşa ediyorum. Generatif sanattan üretime hazır arayüzlere, hem işlevsel hem güzel deneyimler yaratıyorum.',
     'about.p3':
-      'Gerçek bir profesyoneli, markanızı tanımayan ve insan psikolojisini bilmeyen, sürekli kontrol etmeniz gereken bir araçla değiştirmeye gücünüz yetmez. Gerçek ürün tasarımcıları burada parlar.',
+      'Tasarım süsleme değildir. En yüksek seviyede problem çözmektir. Her projeye empati, titizlik ve olağanüstünün altına imza atmama izin vermeyeceğim bir anlayışla yaklaşıyorum.',
     'workflow.heading': 'SINIR YOK',
     'workflow.subtitle': 'PROFESYONEL TASARIM İŞ AKIŞI',
     'workflow.empathize': 'EMPATİ',

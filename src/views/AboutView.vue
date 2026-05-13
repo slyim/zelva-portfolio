@@ -31,6 +31,7 @@ const connections = [
 ]
 
 const activeSkill = ref<string | null>(null)
+const selectedSkill = ref<string | null>(null)
 const mousePos = ref({ x: 0, y: 0 })
 const constellationRef = ref<HTMLDivElement | null>(null)
 
@@ -41,6 +42,55 @@ function handleMouseMove(e: MouseEvent) {
     x: ((e.clientX - rect.left) / rect.width) * 100,
     y: ((e.clientY - rect.top) / rect.height) * 100,
   }
+}
+
+function selectSkill(id: string) {
+  selectedSkill.value = selectedSkill.value === id ? null : id
+}
+
+// Project data for each skill
+const skillProjects: Record<string, { title: string; items: string[] }> = {
+  uiux: {
+    title: 'UI/UX Projects',
+    items: ['UFOCAR Dashboard', 'Seer — Tarot App', 'Artstation Redefined', 'InterMuse'],
+  },
+  code: {
+    title: 'Creative Coding',
+    items: ['Generative Gradients', 'Magic Bouncing Ball', 'Jumping Rectangles', 'Conditionals Study'],
+  },
+  photo: {
+    title: 'Photography',
+    items: ['Urban Textures & Decay', 'Macro Street Details', 'Light & Shadow Study'],
+  },
+  sound: {
+    title: 'Sound Design',
+    items: ['Gris Soundscape', 'Horrorscape', 'Ambient Layers', 'Spatial Audio Experiments'],
+  },
+  illust: {
+    title: 'Illustration',
+    items: ['Toucan Study', 'Elemental Stone', 'Queen Slime', 'Pixel Art Characters'],
+  },
+  motion: {
+    title: 'Motion Design',
+    items: ['UI Micro-interactions', 'Loading Animations', 'Scroll Reveal System', 'Page Transitions'],
+  },
+  frontend: {
+    title: 'Frontend Dev',
+    items: ['Portfolio Site (Vue 3)', 'Custom Video Player', 'Modal Systems', 'Responsive Layouts'],
+  },
+  brand: {
+    title: 'Branding',
+    items: ['Zelva Identity System', 'Logo Design', 'Color Theory', 'Typography Systems'],
+  },
+}
+
+function isConnectedToSelected(nodeId: string): boolean {
+  if (!selectedSkill.value) return false
+  return connections.some(
+    (c) =>
+      (c[0] === selectedSkill.value && c[1] === nodeId) ||
+      (c[1] === selectedSkill.value && c[0] === nodeId)
+  )
 }
 
 // Animated floating particles
@@ -106,7 +156,7 @@ onUnmounted(() => {
           <span class="heading-gradient">SKILL CONSTELLATION</span>
         </h2>
         <p v-scroll-reveal="{ delay: 100 }" class="section-subtitle">
-          Hover to explore the connections
+          Click any star to explore
         </p>
 
         <div
@@ -149,7 +199,8 @@ onUnmounted(() => {
               :y2="skillNodes.find(n => n.id === conn[1])?.y"
               class="connection-line"
               :class="{ 
-                active: activeSkill === conn[0] || activeSkill === conn[1]
+                active: activeSkill === conn[0] || activeSkill === conn[1],
+                selected: selectedSkill === conn[0] || selectedSkill === conn[1]
               }"
             />
             <!-- Mouse proximity line -->
@@ -168,7 +219,11 @@ onUnmounted(() => {
             v-for="node in skillNodes"
             :key="node.id"
             class="skill-node"
-            :class="{ active: activeSkill === node.id, connected: activeSkill && connections.some(c => (c[0] === activeSkill && c[1] === node.id) || (c[1] === activeSkill && c[0] === node.id)) }"
+            :class="{
+              active: activeSkill === node.id || selectedSkill === node.id,
+              connected: (activeSkill && connections.some(c => (c[0] === activeSkill && c[1] === node.id) || (c[1] === activeSkill && c[0] === node.id))) || isConnectedToSelected(node.id),
+              selected: selectedSkill === node.id
+            }"
             :style="{
               left: node.x + '%',
               top: node.y + '%',
@@ -176,11 +231,39 @@ onUnmounted(() => {
             }"
             @mouseenter="activeSkill = node.id"
             @mouseleave="activeSkill = null"
+            @click="selectSkill(node.id)"
           >
             <div class="node-core"></div>
             <div class="node-ring"></div>
             <div class="node-label">{{ node.label }}</div>
           </div>
+
+          <!-- Skill Tooltip Panel -->
+          <Transition name="tooltip">
+            <div
+              v-if="selectedSkill"
+              class="skill-tooltip"
+              :style="{
+                left: (skillNodes.find(n => n.id === selectedSkill)?.x ?? 50) + '%',
+                top: (skillNodes.find(n => n.id === selectedSkill)?.y ?? 50) + '%'
+              }"
+            >
+              <div class="tooltip-header">
+                <span class="tooltip-title">{{ skillProjects[selectedSkill]?.title }}</span>
+                <button class="tooltip-close" aria-label="Close" @click.stop="selectedSkill = null">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+              <ul class="tooltip-list">
+                <li v-for="item in skillProjects[selectedSkill]?.items" :key="item" class="tooltip-item">
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+          </Transition>
         </div>
       </div>
 
@@ -447,6 +530,11 @@ onUnmounted(() => {
   stroke-width: 0.6;
 }
 
+.connection-line.selected {
+  stroke: rgba(var(--accent-rgb), 0.7);
+  stroke-width: 0.8;
+}
+
 .cursor-line {
   stroke: rgba(var(--accent-rgb), 0.2);
   stroke-width: 0.2;
@@ -518,6 +606,124 @@ onUnmounted(() => {
 
 .skill-node.connected .node-core {
   background: rgba(var(--accent-rgb), 0.5);
+}
+
+.skill-node.selected .node-core {
+  background: var(--accent-color);
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.8);
+}
+
+.skill-node.selected .node-ring {
+  border-color: rgba(var(--accent-rgb), 0.6);
+  width: 36px;
+  height: 36px;
+}
+
+/* Skill Tooltip */
+.skill-tooltip {
+  position: absolute;
+  z-index: 10;
+  min-width: 220px;
+  max-width: 280px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transform: translate(-50%, calc(-100% - 24px));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--accent-rgb), 0.15);
+}
+
+.skill-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.85);
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(var(--border-rgb), 0.1);
+}
+
+.tooltip-title {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 0.05em;
+}
+
+.tooltip-close {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(var(--border-rgb), 0.08);
+  color: rgba(var(--text-rgb), 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.tooltip-close:hover {
+  background: rgba(var(--accent-rgb), 0.15);
+  color: var(--accent-color);
+}
+
+.tooltip-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tooltip-item {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(var(--text-rgb), 0.7);
+  line-height: 1.4;
+  padding-left: 12px;
+  position: relative;
+}
+
+.tooltip-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  opacity: 0.6;
+}
+
+/* Tooltip Transition */
+.tooltip-enter-active,
+.tooltip-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tooltip-enter-from,
+.tooltip-leave-to {
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 16px)) scale(0.95);
 }
 
 /* ===== STATS GRID ===== */
