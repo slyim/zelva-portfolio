@@ -222,7 +222,7 @@ function getImageWidth(zoom: number): string {
   overflow-x: hidden;
   padding: 80px 32px 60px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(var(--text-rgb), 0.2) transparent;
+  scrollbar-color: rgba(var(--accent-rgb), 0.5) transparent;
 }
 
 .project-scroll::-webkit-scrollbar {
@@ -234,7 +234,7 @@ function getImageWidth(zoom: number): string {
 }
 
 .project-scroll::-webkit-scrollbar-thumb {
-  background: rgba(var(--text-rgb), 0.2);
+  background: rgba(var(--accent-rgb), 0.5);
   border-radius: 3px;
 }
 
