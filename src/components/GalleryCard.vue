@@ -25,28 +25,25 @@ const isLoaded = ref(false)
         <PhPlus :size="20" weight="bold" />
       </div>
       <div class="card-image">
-        <Transition name="gallery-image">
-          <video
-            v-if="isVideo && image"
-            v-show="isLoaded"
-            :src="publicUrl(image)"
-            autoplay
-            loop
-            muted
-            playsinline
-            @loadeddata="isLoaded = true"
-          />
-        </Transition>
-        <Transition name="gallery-image">
-          <img
-            v-if="!isVideo && image"
-            v-show="isLoaded"
-            :src="publicUrl(image)"
-            :alt="title"
-            loading="lazy"
-            @load="isLoaded = true"
-          />
-        </Transition>
+        <video
+          v-if="isVideo && image"
+          :src="publicUrl(image)"
+          autoplay
+          loop
+          muted
+          playsinline
+          class="media-element"
+          @loadeddata="isLoaded = true"
+        />
+        <img
+          v-else-if="image"
+          :src="publicUrl(image)"
+          :alt="title"
+          loading="lazy"
+          class="media-element"
+          :class="{ 'media-loaded': isLoaded }"
+          @load="isLoaded = true"
+        />
         <div v-if="!isLoaded" class="card-placeholder skeleton" />
       </div>
       <div class="card-overlay">
@@ -150,23 +147,32 @@ const isLoaded = ref(false)
   height: 100%;
 }
 
-.card-image img,
-.card-image video {
+.media-element {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease, opacity 0.4s ease;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.5s ease;
 }
 
-.gallery-card:hover .card-image img,
-.gallery-card:hover .card-image video {
+.media-element.media-loaded,
+.media-element:not(img) {
+  opacity: 1;
+}
+
+.gallery-card:hover .media-element {
   transform: scale(1.05);
 }
 
 .card-placeholder {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   border-radius: 10.5px;
+  z-index: 0;
 }
 
 .card-overlay {
@@ -185,16 +191,5 @@ const isLoaded = ref(false)
   font-weight: 600;
   color: #ffffff;
   letter-spacing: 0.02em;
-}
-
-/* Image fade transition */
-.gallery-image-enter-active,
-.gallery-image-leave-active {
-  transition: opacity 0.4s ease;
-}
-
-.gallery-image-enter-from,
-.gallery-image-leave-to {
-  opacity: 0;
 }
 </style>
