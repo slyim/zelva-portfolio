@@ -4,51 +4,7 @@ import { useI18n } from '../i18n'
 
 const { t } = useI18n()
 
-const skillNodes = [
-  { id: 'uiux', label: 'UI/UX' },
-  { id: 'code', label: 'Creative Coding' },
-  { id: 'photo', label: 'Photography' },
-  { id: 'sound', label: 'Sound Design' },
-  { id: 'illust', label: 'Illustration' },
-  { id: 'motion', label: 'Motion' },
-  { id: 'frontend', label: 'Frontend' },
-  { id: 'brand', label: 'Branding' },
-]
 
-const skillProjects: Record<string, { title: string; items: string[] }> = {
-  uiux: {
-    title: 'UI/UX Projects',
-    items: ['UFOCAR Dashboard', 'Seer Tarot App', 'Artstation Redefined', 'InterMuse'],
-  },
-  code: {
-    title: 'Creative Coding',
-    items: ['Generative Gradients', 'Magic Bouncing Ball', 'Jumping Rectangles', 'Conditionals Study'],
-  },
-  photo: {
-    title: 'Photography',
-    items: ['Urban Textures & Decay', 'Macro Street Details', 'Light & Shadow Study'],
-  },
-  sound: {
-    title: 'Sound Design',
-    items: ['Gris Soundscape', 'Horrorscape', 'Ambient Layers', 'Spatial Audio Experiments'],
-  },
-  illust: {
-    title: 'Illustration',
-    items: ['Toucan Study', 'Elemental Stone', 'Queen Slime', 'Pixel Art Characters'],
-  },
-  motion: {
-    title: 'Motion Design',
-    items: ['UI Micro-interactions', 'Loading Animations', 'Scroll Reveal System', 'Page Transitions'],
-  },
-  frontend: {
-    title: 'Frontend Dev',
-    items: ['Portfolio Site (Vue 3)', 'Custom Video Player', 'Modal Systems', 'Responsive Layouts'],
-  },
-  brand: {
-    title: 'Branding',
-    items: ['Zelva Identity System', 'Logo Design', 'Color Theory', 'Typography Systems'],
-  },
-}
 </script>
 
 <template>
@@ -89,30 +45,16 @@ const skillProjects: Record<string, { title: string; items: string[] }> = {
         </GlassCard>
       </div>
 
-      <!-- Skills Grid -->
-      <div class="skills-section">
-        <h2 v-scroll-reveal class="section-heading">
-          <span class="heading-gradient">WHAT I DO</span>
-        </h2>
-
-        <div class="skills-grid">
-          <div
-            v-for="(skill, i) in skillNodes"
-            :key="skill.id"
-            v-scroll-reveal="{ delay: i * 60 }"
-            class="skill-card"
-          >
-            <div class="skill-header">
-              <div class="skill-dot"></div>
-              <h3 class="skill-name">{{ skill.label }}</h3>
-            </div>
-            <ul class="skill-list">
-              <li v-for="item in skillProjects[skill.id]?.items" :key="item" class="skill-item">
-                {{ item }}
-              </li>
-            </ul>
-          </div>
-        </div>
+      <!-- CTA -->
+      <div v-scroll-reveal class="about-cta">
+        <p class="cta-text">Want to see it in action?</p>
+        <router-link to="/" class="cta-link">
+          Explore the work
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </router-link>
       </div>
 
       <!-- Fun Facts / Stats -->
@@ -296,107 +238,53 @@ const skillProjects: Record<string, { title: string; items: string[] }> = {
   font-weight: 500;
 }
 
-/* ===== SKILLS SECTION ===== */
-.skills-section {
+/* ===== CTA ===== */
+.about-cta {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
-}
-
-.section-heading {
-  font-family: 'Lexend', sans-serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin: 0;
-  text-align: center;
-}
-
-.heading-gradient {
-  color: var(--accent-color);
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  width: 100%;
-}
-
-.skill-card {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 28px;
-  border-radius: 16px;
+  padding: 48px;
+  border-radius: 20px;
   border: 1px solid var(--border-color);
   background: var(--bg-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  text-align: center;
 }
 
-.skill-card:hover {
-  border-color: var(--border-color-hover);
-  background: rgba(var(--accent-rgb), 0.04);
-  transform: translateY(-4px);
-}
-
-.skill-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.skill-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--accent-color);
-  flex-shrink: 0;
-  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
-}
-
-.skill-name {
+.cta-text {
   font-family: 'Lexend', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.skill-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.skill-item {
-  font-family: 'Lexend', sans-serif;
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   font-weight: 400;
-  color: rgba(var(--text-rgb), 0.55);
-  line-height: 1.5;
-  position: relative;
-  padding-left: 14px;
+  color: rgba(var(--text-rgb), 0.6);
+  margin: 0;
 }
 
-.skill-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: rgba(var(--accent-rgb), 0.5);
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Lexend', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: gap 0.3s ease;
+}
+
+.cta-link:hover {
+  gap: 16px;
+}
+
+.cta-link svg {
+  transition: transform 0.3s ease;
+}
+
+.cta-link:hover svg {
+  transform: translateX(4px);
 }
 
 /* ===== STATS GRID ===== */
@@ -444,11 +332,6 @@ const skillProjects: Record<string, { title: string; items: string[] }> = {
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-  .skills-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
 
 @media (max-width: 968px) {
   .bio-grid {
@@ -479,23 +362,6 @@ const skillProjects: Record<string, { title: string; items: string[] }> = {
 
   .philosophy-text {
     font-size: 0.95rem;
-  }
-
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .skill-card {
-    padding: 20px;
-  }
-
-  .skill-name {
-    font-size: 0.9rem;
-  }
-
-  .skill-item {
-    font-size: 0.75rem;
   }
 }
 
@@ -534,34 +400,16 @@ const skillProjects: Record<string, { title: string; items: string[] }> = {
     font-size: 1.8rem;
   }
 
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+  .about-cta {
+    padding: 32px 20px;
   }
 
-  .skill-card {
-    padding: 16px;
-    gap: 12px;
+  .cta-text {
+    font-size: 0.95rem;
   }
 
-  .skill-dot {
-    width: 8px;
-    height: 8px;
-  }
-
-  .skill-name {
-    font-size: 0.8rem;
-  }
-
-  .skill-item {
-    font-size: 0.7rem;
-    padding-left: 12px;
-  }
-
-  .skill-item::before {
-    top: 6px;
-    width: 4px;
-    height: 4px;
+  .cta-link {
+    font-size: 1rem;
   }
 }
 </style>

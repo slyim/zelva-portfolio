@@ -4,6 +4,7 @@ import { PhPlus } from '@phosphor-icons/vue'
 import FullscreenModal from '../components/FullscreenModal.vue'
 import { creativeProjects, type CreativeProject } from '../content/creativeCoding'
 import { loadSketch } from '../utils/sketchLoader'
+import { loadP5 } from '../utils/p5Loader'
 
 const canvasRefs = ref<(HTMLCanvasElement | null)[]>([])
 const animationIds = ref<number[]>([])
@@ -95,6 +96,7 @@ async function startAnimation(index: number) {
   stopPlaceholder(index)
 
   if (project.loadSketch) {
+    await loadP5()
     const cleanup = await loadSketch(project.loadSketch, canvas)
     if (cleanup) {
       sketchCleanups.value[index] = cleanup
@@ -138,6 +140,7 @@ async function openModal(project: CreativeProject, _index: number) {
 
     // Try loading custom sketch
     if (project.loadSketch) {
+      await loadP5()
       const cleanup = await loadSketch(project.loadSketch, canvas)
       if (cleanup) {
         modalSketchCleanup = cleanup
