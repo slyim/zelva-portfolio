@@ -192,14 +192,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-section" aria-label="Creative coding projects">
+  <section class="page-section animate-fade-in" aria-label="Creative coding projects">
     <div class="page-inner">
-      <div class="code-grid">
+      <div class="code-grid stagger-children">
         <div
           v-for="(project, i) in creativeProjects"
           :key="project.title"
           v-scroll-reveal="{ delay: i * 80 }"
-          class="code-card"
+          class="code-card animate-fade-in-scale"
           @mouseenter="handleMouseEnter(i)"
           @mouseleave="handleMouseLeave(i)"
           @click="openModal(project, i)"

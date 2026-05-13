@@ -19,9 +19,9 @@ function closeModal() {
 </script>
 
 <template>
-  <section class="page-section" aria-label="Artworks gallery">
+  <section class="page-section animate-fade-in" aria-label="Artworks gallery">
     <div class="page-inner">
-      <div class="gallery-grid">
+      <div class="gallery-grid stagger-children">
         <GalleryCard
           v-for="(item, i) in artworks"
           :key="item.title"
@@ -29,6 +29,7 @@ function closeModal() {
           :title="item.title"
           :image="item.coverImage"
           aspect-ratio="4/3"
+          class="animate-fade-in-scale"
           @click="openModal(item)"
         />
       </div>

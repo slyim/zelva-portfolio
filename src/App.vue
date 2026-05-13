@@ -1,10 +1,41 @@
 <script setup lang="ts">
+import { ref, onMounted, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
 import { RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
 import SparkleShader from './components/SparkleShader.vue'
 import BackgroundOrbs from './components/BackgroundOrbs.vue'
 import ThemeToggle from './components/ThemeToggle.vue'
 import FooterSection from './sections/FooterSection.vue'
+import PageLoader from './components/PageLoader.vue'
+
+const router = useRouter()
+const isLoading = ref(false)
+
+onMounted(() => {
+  // Initial page load animation
+  isLoading.value = true
+  nextTick(() => {
+    setTimeout(() => {
+      isLoading.value = false
+    }, 600)
+  })
+
+  // Route change loading
+  router.beforeEach((_to, _from, next) => {
+    isLoading.value = true
+    next()
+  })
+
+  router.afterEach(() => {
+    nextTick(() => {
+      // Small delay to let the new page render before hiding loader
+      setTimeout(() => {
+        isLoading.value = false
+      }, 400)
+    })
+  })
+})
 </script>
 
 <template>
@@ -18,12 +49,18 @@ import FooterSection from './sections/FooterSection.vue'
     </defs>
   </svg>
 
+  <PageLoader :visible="isLoading" />
+
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <BackgroundOrbs />
   <SparkleShader />
   <NavBar />
   <main id="main-content">
-    <RouterView />
+    <router-view v-slot="{ Component }">
+      <Transition name="page" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </router-view>
   </main>
   <FooterSection />
   <ThemeToggle />

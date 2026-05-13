@@ -26,9 +26,9 @@ function closeModal() {
 </script>
 
 <template>
-  <section class="page-section" aria-label="Soundscapes showcase">
+  <section class="page-section animate-fade-in" aria-label="Soundscapes showcase">
     <div class="page-inner">
-      <div v-scroll-reveal>
+      <div v-scroll-reveal class="animate-fade-in-scale delay-100">
         <CarouselView 
           :slides="carouselSlides" 
           @click="openModal"

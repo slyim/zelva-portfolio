@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { PhPlus, PhMinus, PhArrowsOut } from '@phosphor-icons/vue'
 import { publicUrl } from '../utils/publicUrl'
 import CustomVideoPlayer from './CustomVideoPlayer.vue'
 
@@ -16,6 +17,11 @@ const emit = defineEmits<{
 }>()
 
 const scrollContainer = ref<HTMLDivElement | null>(null)
+const zoomLevels = ref<number[]>([])
+
+const MIN_ZOOM = 0.5
+const MAX_ZOOM = 3.0
+const ZOOM_STEP = 0.25
 
 function onBackdropClick(e: MouseEvent) {
   if (e.target === e.currentTarget) emit('close')
@@ -25,12 +31,40 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape') emit('close')
 }
 
+function getZoom(index: number): number {
+  return zoomLevels.value[index] ?? 1.0
+}
+
+function setZoom(index: number, value: number) {
+  zoomLevels.value[index] = value
+}
+
+function zoomIn(index: number) {
+  const current = getZoom(index)
+  if (current < MAX_ZOOM) {
+    setZoom(index, Math.min(MAX_ZOOM, current + ZOOM_STEP))
+  }
+}
+
+function zoomOut(index: number) {
+  const current = getZoom(index)
+  if (current > MIN_ZOOM) {
+    setZoom(index, Math.max(MIN_ZOOM, current - ZOOM_STEP))
+  }
+}
+
+function resetZoom(index: number) {
+  setZoom(index, 1.0)
+}
+
 watch(
   () => props.isOpen,
   (open) => {
     if (open) {
       document.body.style.overflow = 'hidden'
       if (scrollContainer.value) scrollContainer.value.scrollTop = 0
+      // Reset zoom levels when modal opens
+      zoomLevels.value = props.images.map(() => 1.0)
     } else {
       document.body.style.overflow = ''
     }
@@ -48,6 +82,10 @@ onUnmounted(() => {
 
 function isVideo(url: string) {
   return url.match(/\.(mp4|webm|ogg)$/i)
+}
+
+function getImageWidth(zoom: number): string {
+  return zoom === 1.0 ? '100%' : `${zoom * 100}%`
 }
 </script>
 
@@ -82,8 +120,43 @@ function isVideo(url: string) {
                 >
                   <div class="card-border"></div>
                   <div class="card-inner">
-                    <CustomVideoPlayer v-if="isVideo(img)" :src="publicUrl(img)" />
-                    <img v-else :src="publicUrl(img)" :alt="`${title} — image ${i + 1}`" loading="lazy" />
+                    <div class="zoom-toolbar">
+                      <button
+                        class="zoom-btn"
+                        :disabled="getZoom(i) <= MIN_ZOOM"
+                        aria-label="Zoom out"
+                        @click="zoomOut(i)"
+                      >
+                        <PhMinus :size="16" weight="bold" />
+                      </button>
+                      <span class="zoom-level">{{ Math.round(getZoom(i) * 100) }}%</span>
+                      <button
+                        class="zoom-btn"
+                        :disabled="getZoom(i) >= MAX_ZOOM"
+                        aria-label="Zoom in"
+                        @click="zoomIn(i)"
+                      >
+                        <PhPlus :size="16" weight="bold" />
+                      </button>
+                      <button
+                        class="zoom-btn"
+                        :disabled="getZoom(i) === 1.0"
+                        aria-label="Reset zoom"
+                        @click="resetZoom(i)"
+                      >
+                        <PhArrowsOut :size="16" weight="bold" />
+                      </button>
+                    </div>
+                    <div class="media-scroll" :class="{ 'is-zoomed': getZoom(i) !== 1.0 }">
+                      <CustomVideoPlayer v-if="isVideo(img)" :src="publicUrl(img)" />
+                      <img
+                        v-else
+                        :src="publicUrl(img)"
+                        :alt="`${title} — image ${i + 1}`"
+                        loading="lazy"
+                        :style="{ width: getImageWidth(getZoom(i)) }"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div v-if="!images.length" class="project-image-wrap project-image-empty">
@@ -225,14 +298,9 @@ function isVideo(url: string) {
   position: relative;
   width: 100%;
   border-radius: 16px;
-  overflow: hidden;
+  overflow: clip;
   border: 1px solid var(--border-color);
   background: var(--bg-card);
-  transition: border-color 0.3s ease;
-}
-
-.project-image-wrap:hover {
-  border-color: transparent;
 }
 
 .card-border {
@@ -248,53 +316,92 @@ function isVideo(url: string) {
   overflow: hidden;
 }
 
-.card-border::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  width: max(300%, 1000px);
-  aspect-ratio: 1;
-  background: conic-gradient(from 0deg, transparent 60%, var(--accent-color) 80%, transparent 100%);
-  transform: translate(-50%, -50%);
-  animation: spin 3s linear infinite;
-  animation-play-state: paused;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.project-image-wrap:hover .card-border::before {
-  opacity: 1;
-  animation-play-state: running;
-}
-
 .card-inner {
   position: relative;
   margin: 1.5px;
   border-radius: 14.5px;
-  overflow: hidden;
   z-index: 1;
   background: var(--bg-card);
   width: calc(100% - 3px);
-  height: calc(100% - 3px);
   display: flex;
+  flex-direction: column;
 }
 
-@keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+.media-scroll {
+  position: relative;
+  width: 100%;
+  overflow: clip;
+  border-radius: 14.5px;
 }
 
-.card-inner img,
-.card-inner :deep(.custom-video-player) {
+.media-scroll.is-zoomed {
+  overflow: auto;
+}
+
+.media-scroll img,
+.media-scroll :deep(.custom-video-player) {
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.6s ease;
+  transition: width 0.3s ease;
 }
 
-.project-image-wrap:hover .card-inner img,
-.project-image-wrap:hover .card-inner :deep(.custom-video-player video) {
-  transform: scale(1.01);
+.zoom-toolbar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(var(--border-rgb), 0.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.project-image-wrap:hover .zoom-toolbar {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.zoom-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.zoom-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--accent-color);
+}
+
+.zoom-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.zoom-level {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  min-width: 42px;
+  text-align: center;
+  user-select: none;
 }
 
 .project-image-empty {
@@ -343,6 +450,23 @@ function isVideo(url: string) {
 
   .project-inner {
     gap: 32px;
+  }
+
+  .zoom-toolbar {
+    top: 8px;
+    right: 8px;
+    padding: 4px;
+    border-radius: 10px;
+  }
+
+  .zoom-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .zoom-level {
+    font-size: 0.7rem;
+    min-width: 36px;
   }
 }
 </style>

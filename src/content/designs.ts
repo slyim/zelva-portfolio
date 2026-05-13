@@ -32,7 +32,7 @@ export const designProjects: DesignProject[] = [
       '/designs/ufocar/2.jpg',
       '/designs/ufocar/3.jpg'
     ],
-    tags: ['UI/UX', 'Automotive', 'Dashboard', 'Dark Mode']
+    tags: ['UI/UX', 'Figma', 'Automotive', 'Dashboard', 'Dark Mode']
   },
   {
     title: 'Odyssey Infographic',
@@ -51,5 +51,32 @@ export const designProjects: DesignProject[] = [
       '/designs/rome/1.png'
     ],
     tags: ['Infographic', 'Isometric', 'Map Design', 'History']
+  },
+  {
+    title: 'Artstation Redefined',
+    description: 'A bold UI/UX redesign concept for ArtStation, reimagining the creative portfolio platform with a modern dark interface, improved navigation hierarchy, and enhanced visual focus on artwork showcases.',
+    coverImage: '/designs/Artstation Redefined.jpg',
+    images: [
+      '/designs/Artstation Redefined.jpg'
+    ],
+    tags: ['UI/UX', 'Figma', 'Redesign', 'Dark Mode', 'Portfolio']
+  },
+  {
+    title: 'Seer',
+    description: 'A UI/UX design for a modern tarot card reading app. Features an elegant dark interface with mystical iconography, intuitive card spread interactions, and atmospheric visual storytelling to guide users through their readings.',
+    coverImage: '/designs/Seer.jpg',
+    images: [
+      '/designs/Seer.jpg'
+    ],
+    tags: ['UI/UX', 'Figma', 'Mobile App', 'Dark Mode', 'Tarot']
+  },
+  {
+    title: 'InterMuse',
+    description: 'An interactive music and creative exploration interface design. InterMuse bridges digital artistry with auditory experience through an immersive, visually striking layout.',
+    coverImage: '/designs/InterMuse.jpg',
+    images: [
+      '/designs/InterMuse.jpg'
+    ],
+    tags: ['UI/UX', 'Figma', 'Music', 'Interactive', 'Digital Art']
   }
 ]

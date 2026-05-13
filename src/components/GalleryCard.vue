@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { PhPlus } from '@phosphor-icons/vue'
 import { publicUrl } from '../utils/publicUrl'
 
@@ -14,6 +14,7 @@ defineEmits<{
 }>()
 
 const isVideo = computed(() => props.image?.match(/\.(mp4|webm|ogg)$/i))
+const isLoaded = ref(false)
 </script>
 
 <template>
@@ -24,21 +25,29 @@ const isVideo = computed(() => props.image?.match(/\.(mp4|webm|ogg)$/i))
         <PhPlus :size="20" weight="bold" />
       </div>
       <div class="card-image">
-        <video
-          v-if="isVideo && image"
-          :src="publicUrl(image)"
-          autoplay
-          loop
-          muted
-          playsinline
-        />
-        <img
-          v-else-if="image"
-          :src="publicUrl(image)"
-          :alt="title"
-          loading="lazy"
-        />
-        <div v-else class="card-placeholder" />
+        <Transition name="gallery-image">
+          <video
+            v-if="isVideo && image"
+            v-show="isLoaded"
+            :src="publicUrl(image)"
+            autoplay
+            loop
+            muted
+            playsinline
+            @loadeddata="isLoaded = true"
+          />
+        </Transition>
+        <Transition name="gallery-image">
+          <img
+            v-if="!isVideo && image"
+            v-show="isLoaded"
+            :src="publicUrl(image)"
+            :alt="title"
+            loading="lazy"
+            @load="isLoaded = true"
+          />
+        </Transition>
+        <div v-if="!isLoaded" class="card-placeholder skeleton" />
       </div>
       <div class="card-overlay">
         <span class="card-title">{{ title }}</span>
@@ -146,7 +155,7 @@ const isVideo = computed(() => props.image?.match(/\.(mp4|webm|ogg)$/i))
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, opacity 0.4s ease;
 }
 
 .gallery-card:hover .card-image img,
@@ -157,11 +166,7 @@ const isVideo = computed(() => props.image?.match(/\.(mp4|webm|ogg)$/i))
 .card-placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-}
-
-html[data-theme="light"] .card-placeholder {
-  background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+  border-radius: 10.5px;
 }
 
 .card-overlay {
@@ -180,5 +185,16 @@ html[data-theme="light"] .card-placeholder {
   font-weight: 600;
   color: #ffffff;
   letter-spacing: 0.02em;
+}
+
+/* Image fade transition */
+.gallery-image-enter-active,
+.gallery-image-leave-active {
+  transition: opacity 0.4s ease;
+}
+
+.gallery-image-enter-from,
+.gallery-image-leave-to {
+  opacity: 0;
 }
 </style>

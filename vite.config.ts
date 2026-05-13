@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/',
+  base: '/zelva-portfolio/',
   plugins: [
     vue(),
     mode === 'development' ? vueDevTools() : undefined,

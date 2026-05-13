@@ -8,10 +8,12 @@ import ScrollSpy from '../components/ScrollSpy.vue'
 </script>
 
 <template>
-  <HeroSection />
-  <WorkflowSection />
-  <ToolsSection />
-  <EducationSection />
-  <ContactSection />
-  <ScrollSpy />
+  <div class="home-enter">
+    <HeroSection class="animate-fade-in" />
+    <WorkflowSection class="animate-fade-in-up delay-100" />
+    <ToolsSection class="animate-fade-in-up delay-200" />
+    <EducationSection class="animate-fade-in-up delay-300" />
+    <ContactSection class="animate-fade-in-up delay-400" />
+    <ScrollSpy />
+  </div>
 </template>
