@@ -39,7 +39,7 @@ const isLoaded = ref(false)
           v-else-if="image"
           :src="publicUrl(image)"
           :alt="title"
-          loading="lazy"
+          loading="eager"
           class="media-element"
           :class="{ 'media-loaded': isLoaded }"
           @load="isLoaded = true"
