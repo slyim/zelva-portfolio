@@ -153,7 +153,7 @@ function getImageWidth(zoom: number): string {
                         v-else
                         :src="publicUrl(img)"
                         :alt="`${title} — image ${i + 1}`"
-                        loading="lazy"
+                        loading="eager"
                         :style="{ width: getImageWidth(getZoom(i)) }"
                       />
                     </div>
