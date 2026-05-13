@@ -18,7 +18,15 @@ const isLoaded = ref(false)
 </script>
 
 <template>
-  <div class="gallery-card" :style="{ aspectRatio: aspectRatio || '4/3' }" @click="$emit('click')">
+  <div
+    class="gallery-card"
+    :style="{ aspectRatio: aspectRatio || '4/3' }"
+    role="button"
+    tabindex="0"
+    :aria-label="`Open ${title}`"
+    @click="$emit('click')"
+    @keydown.enter.space.prevent="$emit('click')"
+  >
     <div class="card-border"></div>
     <div class="card-inner">
       <div class="click-indicator">

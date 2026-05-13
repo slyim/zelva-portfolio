@@ -21,6 +21,7 @@ function closeModal() {
 <template>
   <section class="page-section animate-fade-in" aria-label="Designs showcase">
     <div class="page-inner">
+      <h1 class="page-title">Designs</h1>
       <div class="gallery-grid stagger-children">
         <GalleryCard
           v-for="(item, i) in designProjects"
@@ -63,6 +64,16 @@ function closeModal() {
   display: flex;
   flex-direction: column;
   gap: 48px;
+}
+
+.page-title {
+  font-family: 'Lexend', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: var(--accent-color);
+  margin: 0;
+  text-align: center;
+  letter-spacing: -0.02em;
 }
 
 .gallery-grid {

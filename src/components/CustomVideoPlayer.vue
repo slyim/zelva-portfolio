@@ -164,7 +164,7 @@ onUnmounted(() => {
     <Transition name="slide-up">
       <div v-show="showControls" class="controls-container">
         <div class="glass-controls">
-          <button class="control-btn" aria-label="Play/Pause" @click="togglePlay">
+          <button class="control-btn" :aria-label="isPlaying ? 'Pause' : 'Play'" @click="togglePlay">
             <PhPause v-if="isPlaying" :size="24" weight="fill" />
             <PhPlay v-else :size="24" weight="fill" />
           </button>
@@ -180,7 +180,7 @@ onUnmounted(() => {
           <div class="time-display">{{ duration }}</div>
 
           <div class="volume-container">
-            <button class="control-btn" aria-label="Mute/Unmute" @click="toggleMute">
+            <button class="control-btn" :aria-label="isMuted || volume === 0 ? 'Unmute' : 'Mute'" @click="toggleMute">
               <PhSpeakerSlash v-if="isMuted || volume === 0" :size="24" weight="fill" />
               <PhSpeakerHigh v-else :size="24" weight="fill" />
             </button>

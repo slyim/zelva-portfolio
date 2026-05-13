@@ -92,7 +92,14 @@ function getImageWidth(zoom: number): string {
 <template>
   <Teleport to="body">
     <Transition name="project-modal">
-      <div v-if="isOpen" class="project-overlay" @click="onBackdropClick">
+      <div
+        v-if="isOpen"
+        class="project-overlay"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="'modal-title-' + title"
+        @click="onBackdropClick"
+      >
         <div class="project-content">
           <button class="project-close" aria-label="Close" @click="emit('close')">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -104,7 +111,7 @@ function getImageWidth(zoom: number): string {
           <div ref="scrollContainer" class="project-scroll">
             <div class="project-inner">
               <header class="project-header">
-                <h2 class="project-title">{{ title }}</h2>
+                <h2 :id="'modal-title-' + title" class="project-title">{{ title }}</h2>
                 <p class="project-desc">{{ description }}</p>
                 <div v-if="tags && tags.length" class="project-tags">
                   <span v-for="tag in tags" :key="tag" class="project-tag">{{ tag }}</span>
@@ -364,15 +371,16 @@ function getImageWidth(zoom: number): string {
   transition: opacity 0.25s ease;
 }
 
-.project-image-wrap:hover .zoom-toolbar {
+.project-image-wrap:hover .zoom-toolbar,
+.project-image-wrap:focus-within .zoom-toolbar {
   opacity: 1;
   pointer-events: auto;
 }
 
 .zoom-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   border: none;
   background: transparent;
   color: #ffffff;
@@ -459,8 +467,8 @@ function getImageWidth(zoom: number): string {
   }
 
   .zoom-btn {
-    width: 28px;
-    height: 28px;
+    width: 40px;
+    height: 40px;
   }
 
   .zoom-level {

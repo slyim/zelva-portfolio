@@ -174,8 +174,8 @@ onUnmounted(() => {
   bottom: 140px;
   right: 48px;
   z-index: 4;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
   border: 1.5px solid rgba(var(--border-rgb), 0.25);
   background: var(--bg-card);
@@ -328,8 +328,8 @@ onUnmounted(() => {
   .video-control {
     bottom: 120px;
     right: 24px;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
   }
 
   .hero-cta-btn {

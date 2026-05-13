@@ -30,30 +30,38 @@ const observer = new IntersectionObserver(
 
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<ScrollRevealOptions | undefined>) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (reduced) {
+      // Skip animations entirely for reduced motion users
+      el.classList.add('reveal-visible')
+      return
+    }
+
     el.classList.add('reveal-hidden')
-    
+
     // Apply options if provided
     if (binding.value) {
       const { delay, duration, distance, origin } = binding.value
-      
+
       if (delay) el.style.transitionDelay = `${delay}ms`
       if (duration) el.style.transitionDuration = `${duration}ms`
       if (distance || origin) {
         let x = '0', y = '0'
         const dist = distance || '50px'
-        
+
         switch(origin) {
           case 'left': x = `-${dist}`; break
           case 'right': x = dist; break
           case 'top': y = `-${dist}`; break
           case 'bottom': default: y = dist; break
         }
-        
+
         // Store custom transform in a CSS variable so the base CSS can use it
         el.style.setProperty('--reveal-transform', `translate(${x}, ${y})`)
       }
     }
-    
+
     observer.observe(el)
   },
   unmounted(el: HTMLElement) {

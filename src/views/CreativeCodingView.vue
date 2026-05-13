@@ -197,6 +197,7 @@ onUnmounted(() => {
 <template>
   <section class="page-section animate-fade-in" aria-label="Creative coding projects">
     <div class="page-inner">
+      <h1 class="page-title">Creative Coding</h1>
       <div class="code-grid stagger-children">
         <div
           v-for="(project, i) in creativeProjects"
@@ -252,6 +253,16 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 48px;
+}
+
+.page-title {
+  font-family: 'Lexend', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: var(--accent-color);
+  margin: 0;
+  text-align: center;
+  letter-spacing: -0.02em;
 }
 
 .code-grid {

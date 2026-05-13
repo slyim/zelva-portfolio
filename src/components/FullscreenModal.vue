@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
   isOpen: boolean
@@ -12,16 +12,49 @@ const emit = defineEmits<{
 }>()
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
+const modalRef = ref<HTMLDivElement | null>(null)
 
 defineExpose({
   canvasRef,
+})
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape') emit('close')
+}
+
+watch(
+  () => props.isOpen,
+  (open) => {
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+  }
+)
+
+onMounted(() => {
+  window.addEventListener('keydown', onKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', onKeydown)
+  document.body.style.overflow = ''
 })
 </script>
 
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div v-if="isOpen" class="modal-overlay" @click.self="emit('close')">
+      <div
+        v-if="isOpen"
+        ref="modalRef"
+        class="modal-overlay"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="'fullscreen-title-' + title"
+        @click.self="emit('close')"
+      >
         <div class="modal-content">
           <button class="modal-close" aria-label="Close" @click="emit('close')">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -35,7 +68,7 @@ defineExpose({
           </div>
 
           <div class="modal-info">
-            <h2 class="modal-title">{{ title }}</h2>
+            <h2 :id="'fullscreen-title-' + title" class="modal-title">{{ title }}</h2>
             <p class="modal-desc">{{ description }}</p>
           </div>
         </div>

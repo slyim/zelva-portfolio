@@ -9,7 +9,7 @@ const { t } = useI18n()
   <footer v-scroll-reveal="{ distance: 20 }" class="site-footer" aria-label="Footer">
     <div class="footer-inner">
       <div class="footer-left">
-        <span class="footer-link" role="note">{{ t('footer.legal') }}</span>
+        <span class="footer-link">{{ t('footer.legal') }}</span>
         <span class="footer-copy">{{ t('footer.copyright') }}</span>
         <span class="footer-made-with">
           {{ t('footer.madeWith') }}
@@ -67,12 +67,6 @@ const { t } = useI18n()
   font-size: 0.8rem;
   font-weight: 400;
   color: rgba(var(--text-rgb), 0.5);
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.footer-link:hover {
-  color: rgba(var(--text-rgb), 0.85);
 }
 
 .footer-copy {

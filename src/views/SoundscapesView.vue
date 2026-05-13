@@ -28,6 +28,7 @@ function closeModal() {
 <template>
   <section class="page-section animate-fade-in" aria-label="Soundscapes showcase">
     <div class="page-inner">
+      <h1 class="page-title">Soundscapes</h1>
       <div v-scroll-reveal class="animate-fade-in-scale delay-100">
         <CarouselView 
           :slides="carouselSlides" 
@@ -64,6 +65,16 @@ function closeModal() {
   display: flex;
   flex-direction: column;
   gap: 48px;
+}
+
+.page-title {
+  font-family: 'Lexend', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: var(--accent-color);
+  margin: 0;
+  text-align: center;
+  letter-spacing: -0.02em;
 }
 
 @media (max-width: 768px) {

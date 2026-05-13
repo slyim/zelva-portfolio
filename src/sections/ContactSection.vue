@@ -13,10 +13,16 @@ const name = ref('')
 const message = ref('')
 const isSubmitting = ref(false)
 const isSent = ref(false)
+const formError = ref('')
+
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
 
 async function handleSubmit() {
   if (isSent.value) return
   isSubmitting.value = true
+  formError.value = ''
   try {
     const response = await fetch('https://formsubmit.co/ajax/shylesian@gmail.com', {
       method: 'POST',
@@ -37,42 +43,44 @@ async function handleSubmit() {
       email.value = ''
       name.value = ''
       message.value = ''
-      
-      const duration = 3000
-      const end = Date.now() + duration
 
-      const frame = () => {
-        confetti({
-          particleCount: 5,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: ['#D0FF00', '#ffffff', '#aaaaaa'],
-          zIndex: 9999
-        })
-        confetti({
-          particleCount: 5,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: ['#D0FF00', '#ffffff', '#aaaaaa'],
-          zIndex: 9999
-        })
+      if (!prefersReducedMotion()) {
+        const duration = 3000
+        const end = Date.now() + duration
 
-        if (Date.now() < end) {
-          requestAnimationFrame(frame)
+        const frame = () => {
+          confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#D0FF00', '#ffffff', '#aaaaaa'],
+            zIndex: 9999
+          })
+          confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#D0FF00', '#ffffff', '#aaaaaa'],
+            zIndex: 9999
+          })
+
+          if (Date.now() < end) {
+            requestAnimationFrame(frame)
+          }
         }
+        frame()
       }
-      frame()
 
       setTimeout(() => {
         isSent.value = false
       }, 4000)
     } else {
-      alert('Oops! There was a problem sending your shoutout. Please try again.')
+      formError.value = 'Oops! There was a problem sending your shoutout. Please try again.'
     }
   } catch (error) {
-    alert('Oops! Network error. Please try again later.')
+    formError.value = 'Oops! Network error. Please try again later.'
   } finally {
     isSubmitting.value = false
   }
@@ -133,6 +141,10 @@ async function handleSubmit() {
             />
           </div>
 
+          <div aria-live="polite" aria-atomic="true" class="sr-only">
+            {{ isSent ? t('contact.sent') : formError }}
+          </div>
+          <div v-if="formError" class="form-error" role="alert">{{ formError }}</div>
           <button type="submit" class="shoutout-btn" :disabled="isSubmitting || isSent" :class="{ 'btn-success': isSent }">
             {{ isSubmitting ? t('contact.sending') : (isSent ? t('contact.sent') : t('contact.shoutout')) }}
           </button>
@@ -283,6 +295,30 @@ async function handleSubmit() {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.form-error {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ff6b6b;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.2);
 }
 
 /* Button */

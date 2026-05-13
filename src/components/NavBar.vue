@@ -68,7 +68,7 @@ onUnmounted(() => {
     <div v-scroll-reveal="{ origin: 'top', distance: '20px' }" ref="navContainer" class="nav-container">
       <div class="nav-border"></div>
       <div class="nav-inner">
-        <RouterLink to="/" class="nav-logo" :class="{ active: isActive('/') }">
+        <RouterLink to="/" class="nav-logo" :class="{ active: isActive('/') }" aria-label="Home">
           <PhHouse :size="24" :weight="isActive('/') ? 'fill' : 'regular'" />
         </RouterLink>
 
@@ -90,7 +90,7 @@ onUnmounted(() => {
         </div>
 
         <div ref="desktopLangRef" class="lang-wrap desktop-globe">
-          <button class="nav-globe" aria-label="Language" @click.stop="toggleLangMenu">
+          <button class="nav-globe" aria-label="Language" :aria-expanded="showLangMenu" @click.stop="toggleLangMenu">
             <PhGlobe :size="20" />
           </button>
           <Transition name="lang-fade">
@@ -118,7 +118,7 @@ onUnmounted(() => {
 
     <!-- Mobile Globe -->
     <div ref="mobileLangRef" class="lang-wrap mobile-globe">
-      <button class="nav-globe" aria-label="Language" @click.stop="toggleLangMenu">
+      <button class="nav-globe" aria-label="Language" :aria-expanded="showLangMenu" @click.stop="toggleLangMenu">
         <PhGlobe :size="20" />
       </button>
       <Transition name="lang-fade">

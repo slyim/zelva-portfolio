@@ -37,11 +37,15 @@ function goNext() {
         class="carousel-slides"
         :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
       >
-        <div 
-          v-for="(slide, i) in slides" 
-          :key="i" 
+        <div
+          v-for="(slide, i) in slides"
+          :key="i"
           class="carousel-slide"
+          role="button"
+          tabindex="0"
+          :aria-label="`Open ${slide.title}`"
           @click="emit('click', i)"
+          @keydown.enter.space.prevent="emit('click', i)"
         >
           <div class="card-border"></div>
           <div class="card-inner">
@@ -280,8 +284,8 @@ html[data-theme="light"] .slide-placeholder {
 
 @media (max-width: 768px) {
   .carousel-arrow {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
   
   .carousel-prev {
@@ -304,8 +308,8 @@ html[data-theme="light"] .slide-placeholder {
 
 @media (max-width: 480px) {
   .carousel-arrow {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
   }
 
   .carousel-prev {
