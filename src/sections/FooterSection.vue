@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import { PhGenderTransgender, PhHeart } from '@phosphor-icons/vue'
+import { PhHeart } from '@phosphor-icons/vue'
+import { useI18n } from '../i18n'
+
+const { t } = useI18n()
 </script>
 
 <template>
   <footer v-scroll-reveal="{ distance: 20 }" class="site-footer" aria-label="Footer">
     <div class="footer-inner">
       <div class="footer-left">
-        <span class="footer-link" role="note">legal info</span>
-        <span class="footer-copy">Copyrighted by Zelva</span>
+        <span class="footer-link" role="note">{{ t('footer.legal') }}</span>
+        <span class="footer-copy">{{ t('footer.copyright') }}</span>
         <span class="footer-made-with">
-          Made with Opencode, Zed &amp; Figma 
+          {{ t('footer.madeWith') }}
           <PhHeart :size="12" weight="fill" class="heart-icon" />
         </span>
         <span class="footer-trans-rights">
-          Trans rights are human rights
+          {{ t('footer.transRights') }}
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trans-icon">
             <circle cx="12" cy="12" r="4" />
             <line x1="14.83" y1="9.17" x2="20" y2="4" />

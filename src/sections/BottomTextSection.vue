@@ -1,12 +1,14 @@
 <script setup lang="ts">
+import { useI18n } from '../i18n'
+const { t } = useI18n()
 </script>
 
 <template>
   <section class="bottom-text-section" aria-label="Scroll prompt">
     <div v-scroll-reveal="{ delay: 800, origin: 'bottom', distance: '20px' }" class="text-stack">
-      <span class="scroll-text text-top">CHECK OUT</span>
-      <span class="scroll-text text-mid">DOWN</span>
-      <span class="scroll-text text-btm">GO!</span>
+      <span class="scroll-text text-top">{{ t('hero.scrollTop') }}</span>
+      <span class="scroll-text text-mid">{{ t('hero.scrollMid') }}</span>
+      <span class="scroll-text text-btm">{{ t('hero.scrollBtm') }}</span>
     </div>
   </section>
 </template>

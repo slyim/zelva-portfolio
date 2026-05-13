@@ -4,6 +4,9 @@ import GlassCard from '../components/GlassCard.vue'
 import CardShader from '../components/CardShader.vue'
 import { PhEnvelopeSimple, PhUser } from '@phosphor-icons/vue'
 import confetti from 'canvas-confetti'
+import { useI18n } from '../i18n'
+
+const { t } = useI18n()
 
 const email = ref('')
 const name = ref('')
@@ -83,7 +86,7 @@ async function handleSubmit() {
       <div v-scroll-reveal class="contact-heading">
 
         <h2 class="contact-title">
-          <span class="heading-gradient">CONTACT ME!</span>
+          <span class="heading-gradient">{{ t('contact.heading') }}</span>
         </h2>
       </div>
 
@@ -96,7 +99,7 @@ async function handleSubmit() {
               id="email"
               v-model="email"
               type="email"
-              placeholder="email"
+              :placeholder="t('contact.emailPlaceholder')"
               required
               class="form-input"
               autocomplete="email"
@@ -110,7 +113,7 @@ async function handleSubmit() {
               id="name"
               v-model="name"
               type="text"
-              placeholder="Nickname/Name"
+              :placeholder="t('contact.namePlaceholder')"
               required
               class="form-input"
               autocomplete="name"
@@ -123,7 +126,7 @@ async function handleSubmit() {
             <textarea
               id="message"
               v-model="message"
-              placeholder="__ let's work together! >///<"
+              :placeholder="t('contact.messagePlaceholder')"
               required
               rows="6"
               class="form-input form-textarea"
@@ -131,7 +134,7 @@ async function handleSubmit() {
           </div>
 
           <button type="submit" class="shoutout-btn" :disabled="isSubmitting || isSent" :class="{ 'btn-success': isSent }">
-            {{ isSubmitting ? 'Sending...' : (isSent ? 'Sent Shoutout!' : 'Shoutout!') }}
+            {{ isSubmitting ? t('contact.sending') : (isSent ? t('contact.sent') : t('contact.shoutout')) }}
           </button>
         </form>
 
@@ -140,8 +143,8 @@ async function handleSubmit() {
           <GlassCard class="visual-card">
             <CardShader class="visual-shader" />
             <p class="visual-text">
-              <span class="text-line">Let's create something</span>
-              <span class="text-line">amazing together.</span>
+              <span class="text-line">{{ t('contact.visualLine1') }}</span>
+              <span class="text-line">{{ t('contact.visualLine2') }}</span>
             </p>
           </GlassCard>
         </div>

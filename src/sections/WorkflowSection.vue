@@ -9,7 +9,9 @@ import {
   PhPackage,
   PhCaretRight
 } from '@phosphor-icons/vue'
+import { useI18n } from '../i18n'
 
+const { t } = useI18n()
 
 </script>
 
@@ -18,43 +20,34 @@ import {
     <div class="workflow-inner">
       <!-- Left: About Card (matches navbar glass style) -->
       <GlassCard v-scroll-reveal class="about-card">
-        <p class="about-text">
-          Hi, I'm Zelva, a creative designer who believes in the value of human work &amp; intelligence.
-          Capable of implementing human design solutions made for humans by me in the era of AI slop.
-        </p>
-        <p class="about-text">
-          I'm passionate about crafting experiences that feel natural, intuitive, and visually striking.
-          Creativity is universal, and good design should work for everyone.
-        </p>
-        <p class="about-text">
-          You can't afford to replace a real professional with a tool that you have to babysit that
-          doesn't know your brand &amp; doesn't know human psychology. This is where real product designers shine.
-        </p>
+        <p class="about-text">{{ t('about.p1') }}</p>
+        <p class="about-text">{{ t('about.p2') }}</p>
+        <p class="about-text">{{ t('about.p3') }}</p>
       </GlassCard>
 
       <!-- Right: Workflow Statement -->
       <div class="workflow-content">
         <h2 v-scroll-reveal="{ delay: 150 }" class="workflow-heading">
-          <span class="heading-gradient">NO LIMITS</span>
+          <span class="heading-gradient">{{ t('workflow.heading') }}</span>
         </h2>
-        <p v-scroll-reveal="{ delay: 250 }" class="workflow-subtitle">PROFESSIONAL DESIGN WORKFLOW</p>
+        <p v-scroll-reveal="{ delay: 250 }" class="workflow-subtitle">{{ t('workflow.subtitle') }}</p>
 
         <div v-scroll-reveal="{ delay: 350 }" class="workflow-rows">
           <!-- Row 1 -->
           <div class="workflow-row">
             <div v-scroll-reveal="{ delay: 400, distance: 12 }" class="step-item">
               <PhHeart :size="28" weight="duotone" class="step-icon" />
-              <span class="step-label">EMPATHIZE</span>
+              <span class="step-label">{{ t('workflow.empathize') }}</span>
             </div>
             <PhCaretRight :size="16" weight="bold" class="step-arrow" />
             <div v-scroll-reveal="{ delay: 480, distance: 12 }" class="step-item">
               <PhTarget :size="28" weight="duotone" class="step-icon" />
-              <span class="step-label">DEFINE</span>
+              <span class="step-label">{{ t('workflow.define') }}</span>
             </div>
             <PhCaretRight :size="16" weight="bold" class="step-arrow" />
             <div v-scroll-reveal="{ delay: 560, distance: 12 }" class="step-item">
               <PhLightbulb :size="28" weight="duotone" class="step-icon" />
-              <span class="step-label">IDEATE</span>
+              <span class="step-label">{{ t('workflow.ideate') }}</span>
             </div>
           </div>
 
@@ -62,17 +55,17 @@ import {
           <div class="workflow-row">
             <div v-scroll-reveal="{ delay: 640, distance: 12 }" class="step-item">
               <PhFlask :size="28" weight="duotone" class="step-icon" />
-              <span class="step-label">TEST</span>
+              <span class="step-label">{{ t('workflow.test') }}</span>
             </div>
             <PhCaretRight :size="16" weight="bold" class="step-arrow" />
             <div v-scroll-reveal="{ delay: 720, distance: 12 }" class="step-item">
               <PhRocketLaunch :size="28" weight="duotone" class="step-icon" />
-              <span class="step-label">PROTOTYPE</span>
+              <span class="step-label">{{ t('workflow.prototype') }}</span>
             </div>
             <PhCaretRight :size="16" weight="bold" class="step-arrow" />
             <div v-scroll-reveal="{ delay: 800, distance: 12 }" class="step-item">
               <PhPackage :size="28" weight="duotone" class="step-icon" />
-              <span class="step-label">SHIP</span>
+              <span class="step-label">{{ t('workflow.ship') }}</span>
             </div>
           </div>
         </div>

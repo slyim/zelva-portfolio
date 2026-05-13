@@ -10,21 +10,57 @@ import {
   PhHeadphones,
   PhGlobe
 } from '@phosphor-icons/vue'
+import { useI18n } from '../i18n'
 
 const navContainer = ref<HTMLDivElement | null>(null)
 const route = useRoute()
+const { t, locale, locales, setLocale } = useI18n()
 
 const navLinks = [
-  { to: '/artworks', label: 'Artworks', icon: PhPaintBrush },
-  { to: '/designs', label: 'Designs', icon: PhPalette },
-  { to: '/creative-coding', label: 'Creative Coding', icon: PhCode },
-  { to: '/photography', label: 'Photography', icon: PhCamera },
-  { to: '/soundscapes', label: 'Soundscapes', icon: PhHeadphones },
+  { to: '/artworks', labelKey: 'nav.artworks', icon: PhPaintBrush },
+  { to: '/designs', labelKey: 'nav.designs', icon: PhPalette },
+  { to: '/creative-coding', labelKey: 'nav.creativeCoding', icon: PhCode },
+  { to: '/photography', labelKey: 'nav.photography', icon: PhCamera },
+  { to: '/soundscapes', labelKey: 'nav.soundscapes', icon: PhHeadphones },
 ]
 
-function isActive(path: string) {
-  return route.path === path
+function normalizePath(p: string) {
+  return p.replace(/\/$/, '') || '/'
 }
+
+function isActive(path: string) {
+  return normalizePath(route.path) === normalizePath(path)
+}
+
+// Language dropdown
+const showLangMenu = ref(false)
+const desktopLangRef = ref<HTMLDivElement | null>(null)
+const mobileLangRef = ref<HTMLDivElement | null>(null)
+
+function toggleLangMenu() {
+  showLangMenu.value = !showLangMenu.value
+}
+
+function selectLocale(code: 'en' | 'de' | 'tr') {
+  setLocale(code)
+  showLangMenu.value = false
+}
+
+function handleClickOutside(e: MouseEvent) {
+  const clickedInsideDesktop = desktopLangRef.value?.contains(e.target as Node) ?? false
+  const clickedInsideMobile = mobileLangRef.value?.contains(e.target as Node) ?? false
+  if (!clickedInsideDesktop && !clickedInsideMobile) {
+    showLangMenu.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <template>
@@ -49,13 +85,29 @@ function isActive(path: string) {
               :size="18"
               :weight="isActive(link.to) ? 'fill' : 'regular'"
             />
-            <span>{{ link.label }}</span>
+            <span>{{ t(link.labelKey) }}</span>
           </RouterLink>
         </div>
 
-        <button class="nav-globe desktop-globe" aria-label="Language or region">
-          <PhGlobe :size="20" />
-        </button>
+        <div ref="desktopLangRef" class="lang-wrap desktop-globe">
+          <button class="nav-globe" aria-label="Language" @click.stop="toggleLangMenu">
+            <PhGlobe :size="20" />
+          </button>
+          <Transition name="lang-fade">
+            <div v-if="showLangMenu" class="lang-dropdown">
+              <button
+                v-for="l in locales"
+                :key="l.code"
+                class="lang-option"
+                :class="{ active: locale === l.code }"
+                @click="selectLocale(l.code)"
+              >
+                <span class="lang-flag">{{ l.flag }}</span>
+                <span class="lang-label">{{ l.label }}</span>
+              </button>
+            </div>
+          </Transition>
+        </div>
       </div>
     </div>
 
@@ -64,10 +116,26 @@ function isActive(path: string) {
       <PhHouse :size="20" :weight="isActive('/') ? 'fill' : 'regular'" />
     </RouterLink>
 
-    <!-- Mobile Globe (detached from nav-container to fix backdrop-filter position fixed bug) -->
-    <button class="nav-globe mobile-globe" aria-label="Language or region">
-      <PhGlobe :size="20" />
-    </button>
+    <!-- Mobile Globe -->
+    <div ref="mobileLangRef" class="lang-wrap mobile-globe">
+      <button class="nav-globe" aria-label="Language" @click.stop="toggleLangMenu">
+        <PhGlobe :size="20" />
+      </button>
+      <Transition name="lang-fade">
+        <div v-if="showLangMenu" class="lang-dropdown lang-dropdown-mobile">
+          <button
+            v-for="l in locales"
+            :key="l.code"
+            class="lang-option"
+            :class="{ active: locale === l.code }"
+            @click="selectLocale(l.code)"
+          >
+            <span class="lang-flag">{{ l.flag }}</span>
+            <span class="lang-label">{{ l.label }}</span>
+          </button>
+        </div>
+      </Transition>
+    </div>
   </nav>
 </template>
 
@@ -103,7 +171,6 @@ function isActive(path: string) {
   background: var(--bg-card);
   box-shadow: 0 4px 36.5px 0 rgba(26, 8, 39, 0.25);
   transition: border-color 0.3s ease;
-  overflow: hidden;
 }
 
 .nav-container:hover {
@@ -290,7 +357,7 @@ function isActive(path: string) {
 
   .mobile-globe {
     display: flex !important;
-    position: fixed;
+    position: fixed !important;
     top: 16px;
     right: 16px;
     width: 44px;
@@ -394,6 +461,80 @@ function isActive(path: string) {
   border-color: rgba(var(--accent-rgb), 0.6);
   box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.2);
   color: var(--accent-color);
+}
+
+/* Language dropdown */
+.lang-wrap {
+  position: relative;
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  z-index: 200;
+}
+
+.lang-dropdown-mobile {
+  right: 0;
+  top: calc(100% + 8px);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: none;
+  background: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: rgba(var(--text-rgb), 0.7);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.lang-option:hover {
+  background: rgba(var(--accent-rgb), 0.08);
+  color: var(--text-primary);
+}
+
+.lang-option.active {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.lang-flag {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.lang-label {
+  white-space: nowrap;
+}
+
+/* Transition */
+.lang-fade-enter-active,
+.lang-fade-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.lang-fade-enter-from,
+.lang-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 
 </style>

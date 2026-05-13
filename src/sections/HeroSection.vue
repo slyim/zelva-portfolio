@@ -24,6 +24,9 @@ function scrollToContact() {
 }
 
 import { onMounted, onUnmounted } from 'vue'
+import { useI18n } from '../i18n'
+
+const { t } = useI18n()
 
 let observer: IntersectionObserver | null = null
 
@@ -90,11 +93,11 @@ onUnmounted(() => {
     <!-- Content Layer -->
     <div class="hero-content">
       <p v-scroll-reveal="{ delay: 200, origin: 'bottom' }" class="hero-tagline">
-        S Class Designer <span class="tagline-star">✦</span>
+        {{ t('hero.tagline') }}
       </p>
 
       <h1 v-scroll-reveal="{ delay: 400, origin: 'bottom' }" class="hero-title">
-        <span class="title-white">HI, I'M</span>
+        <span class="title-white">{{ t('hero.greeting') }}</span>
         <span class="title-green"> ZELVA</span>
       </h1>
 
@@ -103,7 +106,7 @@ onUnmounted(() => {
         class="hero-cta-btn"
         @click="scrollToContact"
       >
-        CONTACT
+        {{ t('hero.contact') }}
       </button>
     </div>
 

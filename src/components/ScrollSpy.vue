@@ -1,18 +1,25 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useI18n } from '../i18n'
+
+const { t } = useI18n()
 
 interface SpySection {
   id: string
-  label: string
+  labelKey: string
 }
 
-const sections: SpySection[] = [
-  { id: 'cta', label: 'CTA' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'education', label: 'Education' },
-  { id: 'contact', label: 'Contact me' },
+const sectionDefs: SpySection[] = [
+  { id: 'cta', labelKey: 'spy.cta' },
+  { id: 'about', labelKey: 'spy.about' },
+  { id: 'skills', labelKey: 'spy.skills' },
+  { id: 'education', labelKey: 'spy.education' },
+  { id: 'contact', labelKey: 'spy.contact' },
 ]
+
+const sections = computed(() =>
+  sectionDefs.map(s => ({ id: s.id, label: t(s.labelKey) }))
+)
 
 const activeId = ref('')
 const isScrolling = ref(false)
@@ -49,7 +56,7 @@ function handleScroll() {
 
 onMounted(() => {
   const opts = { rootMargin: '-35% 0px -40% 0px', threshold: 0 }
-  sections.forEach(({ id }) => {
+  sectionDefs.forEach(({ id }) => {
     const el = document.getElementById(id)
     if (!el) return
     const obs = new IntersectionObserver((entries) => {

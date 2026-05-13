@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { tools } from '../content/tools'
 import { publicUrl } from '../utils/publicUrl'
+import { useI18n } from '../i18n'
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -8,12 +11,10 @@ import { publicUrl } from '../utils/publicUrl'
     <div class="tools-inner">
       <div class="tools-header">
         <h2 v-scroll-reveal class="tools-heading">
-          <span class="heading-gradient">TOOLS I MAINLY USE</span>
+          <span class="heading-gradient">{{ t('tools.heading') }}</span>
         </h2>
         <p v-scroll-reveal="{ delay: 100 }" class="tools-subtitle">
-          ps: I can use any tool, a tool does not specify anything, a tool is a tool.
-          Simply one should be able to use them all, adobe, canva, zed, blender,
-          after effects, davinci.... This is my favorites list.
+          {{ t('tools.subtitle') }}
         </p>
       </div>
 
@@ -126,6 +127,22 @@ import { publicUrl } from '../utils/publicUrl'
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* Affine & OpenCode are dark — invert to white in dark mode (default) */
+.tool-icon[src*="/SoftwareIcons/AffineIcon.svg"],
+.tool-icon[src*="/SoftwareIcons/OpenCodeIcon.svg"] {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme="light"] .tool-icon[src*="/SoftwareIcons/AffineIcon.svg"],
+[data-theme="light"] .tool-icon[src*="/SoftwareIcons/OpenCodeIcon.svg"] {
+  filter: none;
+}
+
+/* Zed is white — make it black in light mode */
+[data-theme="light"] .tool-icon[src*="/SoftwareIcons/ZedIcon.svg"] {
+  filter: brightness(0);
 }
 
 .tool-divider {

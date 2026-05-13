@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { educationCategories } from '../content/education'
 import {
   PhCertificate,
   PhStudent,
   PhBrain,
   PhGlobeHemisphereWest,
 } from '@phosphor-icons/vue'
+import { useI18n } from '../i18n'
+import { computed } from 'vue'
+
+const { t } = useI18n()
 
 const iconMap: Record<string, any> = {
   PhCertificate,
@@ -17,6 +20,34 @@ const iconMap: Record<string, any> = {
 function getIcon(name: string) {
   return iconMap[name] || PhCertificate
 }
+
+const educationCategoriesI18n = computed(() => [
+  {
+    title: t('edu.certificates'),
+    icon: 'PhCertificate',
+    items: ['Google UX', 'Meta Frontend'],
+  },
+  {
+    title: t('edu.university'),
+    icon: 'PhStudent',
+    items: [
+      'Istanbul University',
+      'Programming',
+      'Yildiz Technical University',
+      'Communication & Design',
+    ],
+  },
+  {
+    title: t('edu.freeThinker'),
+    icon: 'PhBrain',
+    items: ['Youtube', 'Internet', 'Books', 'AI'],
+  },
+  {
+    title: t('edu.languages'),
+    icon: 'PhGlobeHemisphereWest',
+    items: ['English', 'German', 'Turkish'],
+  },
+])
 </script>
 
 <template>
@@ -24,13 +55,13 @@ function getIcon(name: string) {
     <div class="education-inner">
       <div v-scroll-reveal class="education-header">
         <h2 class="education-heading">
-          <span class="heading-gradient">EDUCATION</span>
+          <span class="heading-gradient">{{ t('education.heading') }}</span>
         </h2>
       </div>
 
       <div class="education-grid">
         <div
-          v-for="(cat, i) in educationCategories"
+          v-for="(cat, i) in educationCategoriesI18n"
           :key="cat.title"
           v-scroll-reveal="{ delay: i * 100 }"
           class="edu-card"

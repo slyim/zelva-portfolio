@@ -83,11 +83,10 @@ function goNext() {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 16px;
 }
 
 .carousel-track {
-  flex: 1;
+  width: 100%;
   overflow: hidden;
   border-radius: 16px;
 }
@@ -223,20 +222,29 @@ html[data-theme="light"] .slide-placeholder {
 }
 
 .carousel-arrow {
-  flex-shrink: 0;
+  position: absolute;
   width: 48px;
   height: 48px;
   border-radius: 12px;
   border: 1.5px solid rgba(var(--border-rgb), 0.25);
   background: var(--bg-card);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease, transform 0.2s ease;
-  z-index: 2;
+  z-index: 10;
+}
+
+.carousel-prev {
+  left: 24px;
+}
+
+.carousel-next {
+  right: 24px;
 }
 
 .carousel-arrow:hover {
@@ -271,13 +279,17 @@ html[data-theme="light"] .slide-placeholder {
 }
 
 @media (max-width: 768px) {
-  .carousel {
-    gap: 8px;
-  }
-
   .carousel-arrow {
     width: 40px;
     height: 40px;
+  }
+  
+  .carousel-prev {
+    left: 16px;
+  }
+  
+  .carousel-next {
+    right: 16px;
   }
 
   .carousel-arrow :deep(svg) {
@@ -294,6 +306,14 @@ html[data-theme="light"] .slide-placeholder {
   .carousel-arrow {
     width: 36px;
     height: 36px;
+  }
+
+  .carousel-prev {
+    left: 12px;
+  }
+  
+  .carousel-next {
+    right: 12px;
   }
 
   .carousel-arrow :deep(svg) {
