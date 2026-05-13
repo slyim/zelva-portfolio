@@ -115,7 +115,6 @@ function getImageWidth(zoom: number): string {
                 <div
                   v-for="(img, i) in images"
                   :key="i"
-                  v-scroll-reveal="{ delay: i * 80 }"
                   class="project-image-wrap"
                 >
                   <div class="card-border"></div>
