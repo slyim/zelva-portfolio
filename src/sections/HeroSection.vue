@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import videoWebM from '../assets/video-loop.webm'
 import videoMP4 from '../assets/video-loop.mp4'
-import videoPoster from '../assets/video-poster.jpg'
+import videoPoster from '../assets/video-poster.webp'
 import BottomTextSection from '../sections/BottomTextSection.vue'
 import { ref } from 'vue'
 

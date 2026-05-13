@@ -26,15 +26,15 @@ export const photos: Photo[] = [
   {
     title: 'Urban Textures & Decay',
     description: 'A photographic exploration of urban decay, found art, and the subtle textures of city life. This collection captures the often-overlooked details of the streets, from faded paint and rust to water stains and animal footprints cast in concrete.',
-    coverImage: '/photography/urban-textures/20231011_080122.jpg',
+    coverImage: '/photography/urban-textures/20231011_080122.webp',
     images: [
-      '/photography/urban-textures/20231004_180118.jpg',
-      '/photography/urban-textures/20231004_180153.jpg',
-      '/photography/urban-textures/20231005_170639.jpg',
-      '/photography/urban-textures/20231005_184115.jpg',
-      '/photography/urban-textures/20231008_181833.jpg',
-      '/photography/urban-textures/20231009_201554.jpg',
-      '/photography/urban-textures/20231011_080122.jpg'
+      '/photography/urban-textures/20231004_180118.webp',
+      '/photography/urban-textures/20231004_180153.webp',
+      '/photography/urban-textures/20231005_170639.webp',
+      '/photography/urban-textures/20231005_184115.webp',
+      '/photography/urban-textures/20231008_181833.webp',
+      '/photography/urban-textures/20231009_201554.webp',
+      '/photography/urban-textures/20231011_080122.webp'
     ],
     tags: ['Urban', 'Macro', 'Textures', 'Found Art']
   }
