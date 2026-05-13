@@ -126,7 +126,7 @@ function getImageWidth(zoom: number): string {
                 >
                   <div class="card-border"></div>
                   <div class="card-inner">
-                    <div class="zoom-toolbar">
+                    <div v-if="!isVideo(img)" class="zoom-toolbar">
                       <button
                         class="zoom-btn"
                         :disabled="getZoom(i) <= MIN_ZOOM"

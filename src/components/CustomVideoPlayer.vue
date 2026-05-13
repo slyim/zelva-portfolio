@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { PhPlay, PhPause, PhSpeakerHigh, PhSpeakerSlash } from '@phosphor-icons/vue'
+import { PhPlay, PhPause, PhSpeakerHigh, PhSpeakerSlash, PhArrowsOut, PhArrowsIn } from '@phosphor-icons/vue'
 
 const props = defineProps<{
   src: string
 }>()
 
+const playerRef = ref<HTMLDivElement | null>(null)
 const videoRef = ref<HTMLVideoElement | null>(null)
 const isPlaying = ref(true)
 const volume = ref(1)
@@ -14,6 +15,7 @@ const progress = ref(0)
 const currentTime = ref('0:00')
 const duration = ref('0:00')
 const showControls = ref(true)
+const isFullscreen = ref(false)
 
 let hideControlsTimeout: number
 
@@ -123,6 +125,23 @@ function resetHideControls() {
   }
 }
 
+function toggleFullscreen() {
+  if (!playerRef.value) return
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {})
+  } else {
+    playerRef.value.requestFullscreen().catch(() => {})
+  }
+}
+
+function onFullscreenChange() {
+  isFullscreen.value = !!document.fullscreenElement
+}
+
+function handleDoubleClick() {
+  toggleFullscreen()
+}
+
 onMounted(() => {
   if (videoRef.value) {
     videoRef.value.play().catch(() => {
@@ -130,17 +149,21 @@ onMounted(() => {
     })
   }
   resetHideControls()
+  document.addEventListener('fullscreenchange', onFullscreenChange)
 })
 
 onUnmounted(() => {
   clearTimeout(hideControlsTimeout)
+  document.removeEventListener('fullscreenchange', onFullscreenChange)
 })
 </script>
 
 <template>
-  <div 
-    class="custom-video-player" 
-    @mousemove="resetHideControls" 
+  <div
+    ref="playerRef"
+    class="custom-video-player"
+    :class="{ 'is-fullscreen': isFullscreen }"
+    @mousemove="resetHideControls"
     @mouseleave="showControls = false"
   >
     <video
@@ -153,6 +176,7 @@ onUnmounted(() => {
       @timeupdate="handleTimeUpdate"
       @loadedmetadata="handleLoadedMetadata"
       @click="togglePlay"
+      @dblclick="handleDoubleClick"
     ></video>
     
     <Transition name="fade">
@@ -190,6 +214,11 @@ onUnmounted(() => {
               </div>
             </div>
           </div>
+
+          <button class="control-btn" :aria-label="isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'" @click="toggleFullscreen">
+            <PhArrowsIn v-if="isFullscreen" :size="24" weight="fill" />
+            <PhArrowsOut v-else :size="24" weight="fill" />
+          </button>
         </div>
       </div>
     </Transition>
@@ -210,6 +239,22 @@ video {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.custom-video-player.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-video-player.is-fullscreen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .center-play {
