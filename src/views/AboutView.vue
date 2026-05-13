@@ -17,12 +17,12 @@ const { t } = useI18n()
           <div class="avatar-wrap">
             <div class="avatar-glow"></div>
             <div class="avatar">
-              <span class="avatar-text">Z</span>
+              <span class="avatar-text">L</span>
             </div>
           </div>
           <div class="identity-info">
             <h1 class="identity-name">
-              <span class="name-white">ZELVA</span>
+              <span class="name-white">LILA</span>
               <span class="name-accent">.design</span>
             </h1>
             <p class="identity-role">S-Class Designer & Creative Developer</p>

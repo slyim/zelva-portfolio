@@ -98,7 +98,7 @@ onUnmounted(() => {
 
       <h1 v-scroll-reveal="{ delay: 400, origin: 'bottom' }" class="hero-title">
         <span class="title-white">{{ t('hero.greeting') }}</span>
-        <span class="title-green"> ZELVA</span>
+        <span class="title-green"> LILA</span>
       </h1>
 
       <button

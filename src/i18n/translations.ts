@@ -64,7 +64,7 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Footer
     'footer.legal': 'legal info',
-    'footer.copyright': 'Copyrighted by Zelva',
+    'footer.copyright': 'Copyrighted by Lila',
     'footer.madeWith': 'Made with Opencode, Zed & Figma',
     'footer.transRights': 'Trans rights are human rights',
 
@@ -133,7 +133,7 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Footer
     'footer.legal': 'Rechtliches',
-    'footer.copyright': 'Urheberrecht bei Zelva',
+    'footer.copyright': 'Urheberrecht bei Lila',
     'footer.madeWith': 'Erstellt mit Opencode, Zed & Figma',
     'footer.transRights': 'Transrechte sind Menschenrechte',
 
@@ -202,7 +202,7 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Footer
     'footer.legal': 'yasal bilgi',
-    'footer.copyright': 'Telif hakkı Zelva\'ya aittir',
+    'footer.copyright': 'Telif hakkı Lila\'ya aittir',
     'footer.madeWith': 'Opencode, Zed & Figma ile yapıldı',
     'footer.transRights': 'Trans hakları insan haklarıdır',
 

@@ -8,7 +8,7 @@
 import { ref, computed } from 'vue'
 import { translations, type Locale } from './translations'
 
-const STORAGE_KEY = 'zelva-locale'
+const STORAGE_KEY = 'lila-locale'
 
 function getInitialLocale(): Locale {
   if (typeof window !== 'undefined') {

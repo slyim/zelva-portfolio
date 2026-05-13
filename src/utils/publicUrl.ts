@@ -1,9 +1,8 @@
 /**
  * Prepend the Vite base URL to a public asset path.
- * In dev this is just '/', in production it's '/zelva-portfolio/'.
+ * In dev this is just '/', in production it's '/' (custom domain).
  *
- * Usage: publicUrl('/designs/ufocar/1.webp')
- *   → '/zelva-portfolio/designs/ufocar/1.webp'
+ *   → '/designs/ufocar/1.webp'
  */
 export function publicUrl(path: string): string {
   const base = import.meta.env.BASE_URL
