@@ -16,7 +16,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     'nav.soundscapes': 'Soundscapes',
 
     // Hero
-    'hero.tagline': 'S Class Designer ✦',
+    'hero.tagline': 'Product Designer ✦',
     'hero.greeting': "HI, I'M",
     'hero.contact': 'CONTACT',
     'hero.scrollTop': 'CHECK OUT',
@@ -85,7 +85,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     'nav.soundscapes': 'Klangwelten',
 
     // Hero
-    'hero.tagline': 'S-Klasse Designerin ✦',
+    'hero.tagline': 'Produktdesignerin ✦',
     'hero.greeting': 'HI, ICH BIN',
     'hero.contact': 'KONTAKT',
     'hero.scrollTop': 'SCHAU DIR',
@@ -154,7 +154,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     'nav.soundscapes': 'Ses Tasarımı',
 
     // Hero
-    'hero.tagline': 'S Sınıfı Tasarımcı ✦',
+    'hero.tagline': 'Ürün Tasarımcısı ✦',
     'hero.greeting': 'MERHABA, BEN',
     'hero.contact': 'İLETİŞİM',
     'hero.scrollTop': 'AŞAĞIYA',

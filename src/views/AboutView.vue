@@ -25,7 +25,7 @@ const { t } = useI18n()
               <span class="name-white">LILA</span>
               <span class="name-accent">.design</span>
             </h1>
-            <p class="identity-role">S-Class Designer & Creative Developer</p>
+            <p class="identity-role">Product Designer & Creative Developer</p>
             <div class="identity-tags">
               <span class="id-tag">UI/UX</span>
               <span class="id-tag">Creative Coding</span>
