@@ -74,7 +74,7 @@ function getThemeColors() {
 }
 
 function animate() {
-  if (!ctx) return
+  if (!ctx || document.hidden || !isVisible) return
   ctx.clearRect(0, 0, w, h)
   const colors = getThemeColors()
 
@@ -108,10 +108,15 @@ function animate() {
   animationId = requestAnimationFrame(animate)
 }
 
+let isVisible = false
+let observer: IntersectionObserver | null = null
+
 function handleVisibilityChange() {
-  if (document.hidden) {
+  if (document.hidden || !isVisible) {
     cancelAnimationFrame(animationId)
   } else {
+    // Only restart if not already running
+    cancelAnimationFrame(animationId)
     animate()
   }
 }
@@ -120,12 +125,23 @@ onMounted(() => {
   init()
   window.addEventListener('resize', resize)
   document.addEventListener('visibilitychange', handleVisibilityChange)
+
+  if (canvasRef.value) {
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting
+        handleVisibilityChange()
+      })
+    })
+    observer.observe(canvasRef.value)
+  }
 })
 
 onUnmounted(() => {
   cancelAnimationFrame(animationId)
   window.removeEventListener('resize', resize)
   document.removeEventListener('visibilitychange', handleVisibilityChange)
+  if (observer) observer.disconnect()
 })
 </script>
 

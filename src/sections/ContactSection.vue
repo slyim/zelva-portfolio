@@ -3,13 +3,16 @@ import { ref } from 'vue'
 import GlassCard from '../components/GlassCard.vue'
 import CardShader from '../components/CardShader.vue'
 import { PhEnvelopeSimple, PhUser } from '@phosphor-icons/vue'
+import confetti from 'canvas-confetti'
 
 const email = ref('')
 const name = ref('')
 const message = ref('')
 const isSubmitting = ref(false)
+const isSent = ref(false)
 
 async function handleSubmit() {
+  if (isSent.value) return
   isSubmitting.value = true
   try {
     const response = await fetch('https://formsubmit.co/ajax/shylesian@gmail.com', {
@@ -27,10 +30,41 @@ async function handleSubmit() {
     })
 
     if (response.ok) {
-      alert('Shoutout sent! I will get back to you soon.')
+      isSent.value = true
       email.value = ''
       name.value = ''
       message.value = ''
+      
+      const duration = 3000
+      const end = Date.now() + duration
+
+      const frame = () => {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#D0FF00', '#ffffff', '#aaaaaa'],
+          zIndex: 9999
+        })
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#D0FF00', '#ffffff', '#aaaaaa'],
+          zIndex: 9999
+        })
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame)
+        }
+      }
+      frame()
+
+      setTimeout(() => {
+        isSent.value = false
+      }, 4000)
     } else {
       alert('Oops! There was a problem sending your shoutout. Please try again.')
     }
@@ -96,8 +130,8 @@ async function handleSubmit() {
             />
           </div>
 
-          <button type="submit" class="shoutout-btn" :disabled="isSubmitting">
-            {{ isSubmitting ? 'Sending...' : 'Shoutout!' }}
+          <button type="submit" class="shoutout-btn" :disabled="isSubmitting || isSent" :class="{ 'btn-success': isSent }">
+            {{ isSubmitting ? 'Sending...' : (isSent ? 'Sent Shoutout!' : 'Shoutout!') }}
           </button>
         </form>
 
@@ -298,6 +332,17 @@ async function handleSubmit() {
   transform: translateY(0) scale(0.98);
 }
 
+.shoutout-btn.btn-success {
+  background: var(--text-primary);
+  color: var(--bg-page);
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(255, 255, 255, 0.2);
+}
+
+html[data-theme='light'] .shoutout-btn.btn-success {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
 /* Visual Card */
 .contact-visual {
   width: 100%;
@@ -322,7 +367,17 @@ async function handleSubmit() {
   overflow: hidden;
   transition:
     transform 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.visual-card :deep(.glass-content) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .visual-card:hover {

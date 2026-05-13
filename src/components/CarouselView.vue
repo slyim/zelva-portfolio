@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue'
+import { PhCaretLeft, PhCaretRight, PhPlus } from '@phosphor-icons/vue'
 
 interface Slide {
   title: string
@@ -9,6 +9,10 @@ interface Slide {
 
 const props = defineProps<{
   slides: Slide[]
+}>()
+
+const emit = defineEmits<{
+  click: [index: number]
 }>()
 
 const currentIndex = ref(0)
@@ -33,13 +37,24 @@ function goNext() {
         class="carousel-slides"
         :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
       >
-        <div v-for="(slide, i) in slides" :key="i" class="carousel-slide">
-          <div class="slide-image">
-            <img v-if="slide.image" :src="slide.image" :alt="slide.title" />
-            <div v-else class="slide-placeholder" />
-          </div>
-          <div class="slide-overlay">
-            <span class="slide-title">{{ slide.title }}</span>
+        <div 
+          v-for="(slide, i) in slides" 
+          :key="i" 
+          class="carousel-slide"
+          @click="emit('click', i)"
+        >
+          <div class="card-border"></div>
+          <div class="card-inner">
+            <div class="click-indicator">
+              <PhPlus :size="20" weight="bold" />
+            </div>
+            <div class="slide-image">
+              <img v-if="slide.image" :src="slide.image" :alt="slide.title" />
+              <div v-else class="slide-placeholder" />
+            </div>
+            <div class="slide-overlay">
+              <span class="slide-title">{{ slide.title }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -87,6 +102,85 @@ function goNext() {
   flex: 0 0 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
+  cursor: pointer;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  background: var(--bg-card);
+}
+
+.carousel-slide:hover {
+  border-color: transparent;
+}
+
+.card-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.card-border::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: max(300%, 1000px);
+  aspect-ratio: 1;
+  background: conic-gradient(from 0deg, transparent 60%, var(--accent-color) 80%, transparent 100%);
+  transform: translate(-50%, -50%);
+  animation: spin 3s linear infinite;
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.carousel-slide:hover .card-border::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.card-inner {
+  position: relative;
+  margin: 1.5px;
+  width: calc(100% - 3px);
+  height: calc(100% - 3px);
+  border-radius: 14.5px;
+  overflow: hidden;
+  z-index: 1;
+  background: var(--bg-page);
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.click-indicator {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  color: var(--accent-color);
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.carousel-slide:hover .click-indicator {
+  transform: scale(1.1) rotate(90deg);
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.6);
 }
 
 .slide-image {

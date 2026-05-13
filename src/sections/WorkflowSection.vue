@@ -174,16 +174,21 @@ import {
   border-radius: 12px;
   border: 1px solid rgba(var(--border-rgb), 0.08);
   background: rgba(var(--border-rgb), 0.03);
-  transition: border-color 0.3s ease, background 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
   flex: 1 1 0;
   max-width: 130px;
   min-width: 90px;
   min-height: 90px;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .step-item:hover {
   border-color: var(--border-color-hover);
   background: rgba(var(--accent-rgb), 0.04);
+  transform: translateY(-2px);
 }
 
 .step-icon {

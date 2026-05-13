@@ -100,8 +100,11 @@ import { publicUrl } from '../utils/publicUrl'
   border: 1px solid rgba(var(--border-rgb), 0.1);
   background: rgba(var(--border-rgb), 0.03);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
   cursor: default;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .tool-card:hover {

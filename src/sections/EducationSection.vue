@@ -108,6 +108,8 @@ function getIcon(name: string) {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .edu-card:hover {

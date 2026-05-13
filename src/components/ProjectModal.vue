@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { publicUrl } from '../utils/publicUrl'
+import CustomVideoPlayer from './CustomVideoPlayer.vue'
 
 const props = defineProps<{
   isOpen: boolean
@@ -79,8 +80,11 @@ function isVideo(url: string) {
                   v-scroll-reveal="{ delay: i * 80 }"
                   class="project-image-wrap"
                 >
-                  <video v-if="isVideo(img)" :src="publicUrl(img)" controls autoplay loop playsinline></video>
-                  <img v-else :src="publicUrl(img)" :alt="`${title} — image ${i + 1}`" loading="lazy" />
+                  <div class="card-border"></div>
+                  <div class="card-inner">
+                    <CustomVideoPlayer v-if="isVideo(img)" :src="publicUrl(img)" />
+                    <img v-else :src="publicUrl(img)" :alt="`${title} — image ${i + 1}`" loading="lazy" />
+                  </div>
                 </div>
                 <div v-if="!images.length" class="project-image-wrap project-image-empty">
                   <span>No images yet</span>
@@ -110,7 +114,7 @@ function isVideo(url: string) {
   position: relative;
   width: 100%;
   max-width: 1100px;
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -218,23 +222,78 @@ function isVideo(url: string) {
 }
 
 .project-image-wrap {
+  position: relative;
   width: 100%;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--border-color);
   background: var(--bg-card);
+  transition: border-color 0.3s ease;
 }
 
-.project-image-wrap img,
-.project-image-wrap video {
+.project-image-wrap:hover {
+  border-color: transparent;
+}
+
+.card-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.card-border::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: max(300%, 1000px);
+  aspect-ratio: 1;
+  background: conic-gradient(from 0deg, transparent 60%, var(--accent-color) 80%, transparent 100%);
+  transform: translate(-50%, -50%);
+  animation: spin 3s linear infinite;
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.project-image-wrap:hover .card-border::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.card-inner {
+  position: relative;
+  margin: 1.5px;
+  border-radius: 14.5px;
+  overflow: hidden;
+  z-index: 1;
+  background: var(--bg-card);
+  width: calc(100% - 3px);
+  height: calc(100% - 3px);
+  display: flex;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.card-inner img,
+.card-inner :deep(.custom-video-player) {
   width: 100%;
   height: auto;
   display: block;
   transition: transform 0.6s ease;
 }
 
-.project-image-wrap:hover img,
-.project-image-wrap:hover video {
+.project-image-wrap:hover .card-inner img,
+.project-image-wrap:hover .card-inner :deep(.custom-video-player video) {
   transform: scale(1.01);
 }
 

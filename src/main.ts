@@ -11,3 +11,11 @@ app.use(router)
 app.directive('scroll-reveal', scrollReveal)
 
 app.mount('#app')
+
+// Dynamic Favicon for Localhost vs Production
+if (import.meta.env.DEV) {
+  const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement
+  if (favicon) {
+    favicon.href = '/favicon-dev.svg'
+  }
+}

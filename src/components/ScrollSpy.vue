@@ -15,15 +15,30 @@ const sections: SpySection[] = [
 ]
 
 const activeId = ref('')
+const isScrolling = ref(false)
+let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 
 function scrollTo(id: string) {
   const el = document.getElementById(id)
-  if (el) el.scrollIntoView({ behavior: 'smooth' })
+  if (el) {
+    activeId.value = id
+    isScrolling.value = true
+    
+    if (scrollTimeout) clearTimeout(scrollTimeout)
+    
+    scrollTimeout = setTimeout(() => {
+      isScrolling.value = false
+    }, 1000)
+
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
 }
 
 let observers: IntersectionObserver[] = []
 
 function handleScroll() {
+  if (isScrolling.value) return
+  
   const scrollBottom = window.scrollY + window.innerHeight
   const docHeight = document.documentElement.scrollHeight
   // If the user is within 80px of the bottom, force Contact active
@@ -39,7 +54,9 @@ onMounted(() => {
     if (!el) return
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) activeId.value = id
+        if (entry.isIntersecting && !isScrolling.value) {
+          activeId.value = id
+        }
       })
     }, opts)
     obs.observe(el)

@@ -22,6 +22,30 @@ function scrollToContact() {
   const el = document.getElementById('contact')
   if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
+
+import { onMounted, onUnmounted } from 'vue'
+
+let observer: IntersectionObserver | null = null
+
+onMounted(() => {
+  if (videoRef.value) {
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!videoRef.value) return
+        if (entry.isIntersecting && isPlaying.value) {
+          videoRef.value.play().catch(() => {})
+        } else {
+          videoRef.value.pause()
+        }
+      })
+    }, { threshold: 0 })
+    observer.observe(videoRef.value)
+  }
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
 </script>
 
 <template>
@@ -91,7 +115,7 @@ function scrollToContact() {
 .hero {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -303,7 +327,7 @@ function scrollToContact() {
 
 @media (max-width: 480px) {
   .hero {
-    padding: 90px 16px 32px;
+    padding: 48px 16px 100px;
     min-height: 100svh;
   }
 

@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../Processing-Sketchbook/Crescent/CoinFlip"
+		},
+		{
+			"path": "../../../Processing-Sketchbook/SpaceShooters"
+		},
+		{
+			"path": "../../../Processing-Sketchbook/LilacSketchbook/MagicBouncingBall"
+		},
+		{
+			"path": "../../../Processing-Sketchbook/LilacSketchbook/ConditionalsCD"
+		}
+	],
+	"settings": {}
+}

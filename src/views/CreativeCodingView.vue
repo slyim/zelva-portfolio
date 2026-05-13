@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { PhPlus } from '@phosphor-icons/vue'
 import FullscreenModal from '../components/FullscreenModal.vue'
 import { creativeProjects, type CreativeProject } from '../content/creativeCoding'
 import { loadSketch } from '../utils/sketchLoader'
@@ -60,15 +61,39 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
   if (ctx) ctx.scale(dpr, dpr)
 }
 
-async function startAnimation(index: number) {
+function startPlaceholder(index: number, speed: number = 0.3) {
   const canvas = canvasRefs.value[index]
   if (!canvas) return
   resizeCanvas(canvas)
 
+  if (animationIds.value[index]) {
+    cancelAnimationFrame(animationIds.value[index])
+  }
+
+  let startTime = performance.now()
+  function animate() {
+    drawPlaceholder(canvas!, (performance.now() - startTime) * speed)
+    animationIds.value[index] = requestAnimationFrame(animate)
+  }
+  animate()
+}
+
+function stopPlaceholder(index: number) {
+  if (animationIds.value[index]) {
+    cancelAnimationFrame(animationIds.value[index])
+    animationIds.value[index] = 0
+  }
+}
+
+async function startAnimation(index: number) {
+  const canvas = canvasRefs.value[index]
+  if (!canvas) return
+
   const project = creativeProjects[index]
   if (!project) return
 
-  // Try loading custom p5 sketch if available
+  stopPlaceholder(index)
+
   if (project.loadSketch) {
     const cleanup = await loadSketch(project.loadSketch, canvas)
     if (cleanup) {
@@ -77,13 +102,7 @@ async function startAnimation(index: number) {
     }
   }
 
-  // Fallback placeholder animation
-  let startTime = performance.now()
-  function animate() {
-    drawPlaceholder(canvas!, performance.now() - startTime)
-    animationIds.value[index] = requestAnimationFrame(animate)
-  }
-  animate()
+  startPlaceholder(index, 1.0)
 }
 
 function stopAnimation(index: number) {
@@ -91,15 +110,12 @@ function stopAnimation(index: number) {
     sketchCleanups.value[index]!()
     sketchCleanups.value[index] = null
   }
-  if (animationIds.value[index]) {
-    cancelAnimationFrame(animationIds.value[index])
-    animationIds.value[index] = 0
-  }
   const canvas = canvasRefs.value[index]
   if (canvas) {
     const ctx = canvas.getContext('2d')
     if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height)
   }
+  startPlaceholder(index, 0.3)
 }
 
 function handleMouseEnter(index: number) {
@@ -156,6 +172,11 @@ function closeModal() {
 onMounted(() => {
   animationIds.value = Array.from({ length: creativeProjects.length }, () => 0)
   sketchCleanups.value = Array.from({ length: creativeProjects.length }, () => null)
+  
+  // Start slow placeholder for all
+  creativeProjects.forEach((_, i) => {
+    startPlaceholder(i, 0.3)
+  })
 })
 
 onUnmounted(() => {
@@ -183,13 +204,19 @@ onUnmounted(() => {
           @mouseleave="handleMouseLeave(i)"
           @click="openModal(project, i)"
         >
-          <canvas
-            :ref="(el) => { canvasRefs[i] = el as HTMLCanvasElement }"
-            class="code-canvas"
-          />
-          <div class="code-info">
-            <span class="code-title">{{ project.title }}</span>
-            <span class="code-desc">{{ project.description }}</span>
+          <div class="card-border"></div>
+          <div class="card-inner">
+            <div class="click-indicator">
+              <PhPlus :size="20" weight="bold" />
+            </div>
+            <canvas
+              :ref="(el) => { canvasRefs[i] = el as HTMLCanvasElement }"
+              class="code-canvas"
+            />
+            <div class="code-info">
+              <span class="code-title">{{ project.title }}</span>
+              <span class="code-desc">{{ project.description }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -209,7 +236,7 @@ onUnmounted(() => {
 .page-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-page);
   padding: 140px 48px 80px;
   display: flex;
@@ -238,13 +265,82 @@ onUnmounted(() => {
   border: 1px solid var(--border-color);
   background: var(--bg-card);
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .code-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(var(--shadow-rgb), 0.2);
-  border-color: var(--border-color-hover);
+  border-color: transparent;
+}
+
+.card-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.card-border::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: max(300%, 1000px);
+  aspect-ratio: 1;
+  background: conic-gradient(from 0deg, transparent 60%, var(--accent-color) 80%, transparent 100%);
+  transform: translate(-50%, -50%);
+  animation: spin 3s linear infinite;
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.code-card:hover .card-border::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.card-inner {
+  position: relative;
+  margin: 1.5px;
+  width: calc(100% - 3px);
+  height: calc(100% - 3px);
+  border-radius: 10.5px;
+  overflow: hidden;
+  z-index: 1;
+  background: var(--bg-page);
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.click-indicator {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  color: var(--accent-color);
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.code-card:hover .click-indicator {
+  transform: scale(1.1) rotate(90deg);
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.6);
 }
 
 .code-canvas {
@@ -301,7 +397,7 @@ onUnmounted(() => {
 
 @media (max-width: 480px) {
   .page-section {
-    padding: 100px 16px 48px;
+    padding: 48px 16px 120px;
   }
 
   .code-grid {

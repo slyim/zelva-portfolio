@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import GalleryCard from '../components/GalleryCard.vue'
+import { ref, computed } from 'vue'
+import CarouselView from '../components/CarouselView.vue'
 import ProjectModal from '../components/ProjectModal.vue'
 import { soundscapeProjects, type SoundscapeProject } from '../content/soundscapes'
 
 const modalOpen = ref(false)
 const activeProject = ref<SoundscapeProject | null>(null)
 
-function openModal(project: SoundscapeProject) {
-  activeProject.value = project
+const carouselSlides = computed(() => {
+  return soundscapeProjects.map(p => ({
+    title: p.title,
+    image: p.thumbnail || p.coverImage
+  }))
+})
+
+function openModal(index: number) {
+  activeProject.value = soundscapeProjects[index] || null
   modalOpen.value = true
 }
 
@@ -21,15 +28,10 @@ function closeModal() {
 <template>
   <section class="page-section" aria-label="Soundscapes showcase">
     <div class="page-inner">
-      <div class="gallery-grid">
-        <GalleryCard
-          v-for="(item, i) in soundscapeProjects"
-          :key="item.title"
-          v-scroll-reveal="{ delay: i * 80 }"
-          :title="item.title"
-          :image="item.coverImage"
-          aspect-ratio="16/9"
-          @click="openModal(item)"
+      <div v-scroll-reveal>
+        <CarouselView 
+          :slides="carouselSlides" 
+          @click="openModal"
         />
       </div>
     </div>
@@ -49,7 +51,7 @@ function closeModal() {
 .page-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-page);
   padding: 140px 48px 80px;
   display: flex;
@@ -64,29 +66,15 @@ function closeModal() {
   gap: 48px;
 }
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
 @media (max-width: 768px) {
   .page-section {
     padding: 120px 24px 60px;
-  }
-
-  .gallery-grid {
-    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 480px) {
   .page-section {
-    padding: 100px 16px 48px;
-  }
-
-  .gallery-grid {
-    gap: 16px;
+    padding: 48px 16px 120px;
   }
 }
 </style>

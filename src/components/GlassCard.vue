@@ -1,72 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 
 const cardRef = ref<HTMLDivElement | null>(null)
-
-let mouseX = 0
-let mouseY = 0
-let currentX = 0
-let currentY = 0
-let rafId: number
-
-function lerp(start: number, end: number, factor: number) {
-  return start + (end - start) * factor
-}
-
-function animate() {
-  currentX = lerp(currentX, mouseX, 0.18)
-  currentY = lerp(currentY, mouseY, 0.18)
-
-  if (cardRef.value) {
-    cardRef.value.style.setProperty('--mouse-x', `${currentX}px`)
-    cardRef.value.style.setProperty('--mouse-y', `${currentY}px`)
-  }
-
-  rafId = requestAnimationFrame(animate)
-}
-
-function handleMouseMove(e: MouseEvent) {
-  const rect = cardRef.value?.getBoundingClientRect()
-  if (!rect) return
-  mouseX = e.clientX - rect.left
-  mouseY = e.clientY - rect.top
-}
-
-function handleMouseLeave() {
-  const rect = cardRef.value?.getBoundingClientRect()
-  if (rect) {
-    mouseX = rect.width / 2
-    mouseY = rect.height / 2
-  }
-}
-
-onMounted(() => {
-  const rect = cardRef.value?.getBoundingClientRect()
-  if (rect) {
-    mouseX = rect.width / 2
-    mouseY = rect.height / 2
-    currentX = mouseX
-    currentY = mouseY
-    cardRef.value?.style.setProperty('--mouse-x', `${currentX}px`)
-    cardRef.value?.style.setProperty('--mouse-y', `${currentY}px`)
-  }
-
-  cardRef.value?.addEventListener('mousemove', handleMouseMove)
-  cardRef.value?.addEventListener('mouseleave', handleMouseLeave)
-  animate()
-})
-
-onUnmounted(() => {
-  cancelAnimationFrame(rafId)
-  cardRef.value?.removeEventListener('mousemove', handleMouseMove)
-  cardRef.value?.removeEventListener('mouseleave', handleMouseLeave)
-})
 </script>
 
 <template>
   <div ref="cardRef" class="glass-card">
-    <div class="glass-content">
-      <slot />
+    <div class="glass-border"></div>
+    <div class="card-inner">
+      <div class="glass-content">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -77,91 +21,84 @@ onUnmounted(() => {
   --mouse-y: 50%;
 
   position: relative;
+  display: flex;
+  flex-direction: column;
   border-radius: 16px;
   border: 1px solid var(--border-color);
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 36.5px 0 rgba(26, 8, 39, 0.25);
   transition: border-color 0.3s ease;
-}
-
-/* Dynamic inner light that follows cursor */
-.glass-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    280px circle at var(--mouse-x) var(--mouse-y),
-    rgba(var(--accent-rgb), 0.04) 0%,
-    transparent 65%
-  );
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* Dynamic border glow that follows cursor */
-.glass-card::after {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  background: radial-gradient(
-    180px circle at var(--mouse-x) var(--mouse-y),
-    rgba(var(--accent-rgb), 0.12) 0%,
-    transparent 55%
-  );
-  border-radius: 16px;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.glass-card:hover::after {
-  opacity: 1;
+  overflow: hidden;
+  box-shadow: 0 4px 36.5px 0 rgba(26, 8, 39, 0.25);
 }
 
 .glass-card:hover {
-  border-color: var(--border-color-hover);
+  border-color: transparent;
 }
 
-/* Light mode: stronger glow visibility */
-html[data-theme="light"] .glass-card::before {
-  background: radial-gradient(
-    280px circle at var(--mouse-x) var(--mouse-y),
-    rgba(var(--accent-rgb), 0.08) 0%,
-    transparent 65%
-  );
+.glass-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
 
-html[data-theme="light"] .glass-card::after {
-  background: radial-gradient(
-    180px circle at var(--mouse-x) var(--mouse-y),
-    rgba(var(--accent-rgb), 0.2) 0%,
-    transparent 55%
-  );
+.glass-border::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: max(300%, 1000px);
+  aspect-ratio: 1;
+  background: conic-gradient(from 0deg, transparent 60%, var(--accent-color) 80%, transparent 100%);
+  transform: translate(-50%, -50%);
+  animation: spin 3s linear infinite;
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
-/* Content sits above glow layers */
+.glass-card:hover .glass-border::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.card-inner {
+  position: relative;
+  margin: 1.5px;
+  width: calc(100% - 3px);
+  flex-grow: 1;
+  border-radius: 14.5px;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .glass-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 @media (max-width: 768px) {
   .glass-card {
     border-radius: 12px;
   }
-
-  .glass-card::after {
-    border-radius: 12px;
+  .card-inner {
+    border-radius: 10.5px;
   }
 }
 
@@ -169,9 +106,8 @@ html[data-theme="light"] .glass-card::after {
   .glass-card {
     border-radius: 10px;
   }
-
-  .glass-card::after {
-    border-radius: 10px;
+  .card-inner {
+    border-radius: 8.5px;
   }
 }
 </style>

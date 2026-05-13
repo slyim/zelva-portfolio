@@ -49,7 +49,7 @@ function closeModal() {
 .page-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-page);
   padding: 140px 48px 80px;
   display: flex;
@@ -82,7 +82,7 @@ function closeModal() {
 
 @media (max-width: 480px) {
   .page-section {
-    padding: 100px 16px 48px;
+    padding: 48px 16px 120px;
   }
 
   .gallery-grid {

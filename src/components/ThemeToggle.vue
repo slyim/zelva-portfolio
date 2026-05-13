@@ -62,7 +62,8 @@ onMounted(() => {
 
 @media (max-width: 480px) {
   .theme-toggle {
-    bottom: 16px;
+    bottom: auto;
+    top: 16px;
     left: 16px;
     width: 44px;
     height: 44px;
