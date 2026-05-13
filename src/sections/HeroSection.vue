@@ -306,6 +306,16 @@ onUnmounted(() => {
     align-items: center;
   }
 
+  .hero-video {
+    width: 92%;
+    height: 92%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    object-fit: cover;
+  }
+
   .hero-content {
     padding-top: 12vh;
     gap: 20px;
@@ -332,6 +342,16 @@ onUnmounted(() => {
   .hero {
     padding: 48px 16px 100px;
     min-height: 100svh;
+  }
+
+  .hero-video {
+    width: 85%;
+    height: 85%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 24px;
+    object-fit: cover;
   }
 
   .hero-content {

@@ -13,27 +13,12 @@ const router = useRouter()
 const isLoading = ref(false)
 
 onMounted(() => {
-  // Initial page load animation
+  // Initial page load animation only
   isLoading.value = true
   nextTick(() => {
     setTimeout(() => {
       isLoading.value = false
     }, 600)
-  })
-
-  // Route change loading
-  router.beforeEach((_to, _from, next) => {
-    isLoading.value = true
-    next()
-  })
-
-  router.afterEach(() => {
-    nextTick(() => {
-      // Small delay to let the new page render before hiding loader
-      setTimeout(() => {
-        isLoading.value = false
-      }, 400)
-    })
   })
 })
 </script>
