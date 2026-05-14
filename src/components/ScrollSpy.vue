@@ -11,8 +11,10 @@ interface SpySection {
 
 const sectionDefs: SpySection[] = [
   { id: 'cta', labelKey: 'spy.cta' },
+  { id: 'featured', labelKey: 'spy.featured' },
   { id: 'about', labelKey: 'spy.about' },
   { id: 'skills', labelKey: 'spy.skills' },
+  { id: 'tools', labelKey: 'spy.tools' },
   { id: 'education', labelKey: 'spy.education' },
   { id: 'contact', labelKey: 'spy.contact' },
 ]
@@ -41,7 +43,7 @@ function scrollTo(id: string) {
   }
 }
 
-let observers: IntersectionObserver[] = []
+const observers: IntersectionObserver[] = []
 
 function handleScroll() {
   if (isScrolling.value) return

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HeroSection from '../sections/HeroSection.vue'
+import FeaturedWorkSection from '../sections/FeaturedWorkSection.vue'
 import WorkflowSection from '../sections/WorkflowSection.vue'
 import SkillsSection from '../sections/SkillsSection.vue'
 import ToolsSection from '../sections/ToolsSection.vue'
@@ -11,11 +12,12 @@ import ScrollSpy from '../components/ScrollSpy.vue'
 <template>
   <div class="home-enter">
     <HeroSection class="animate-fade-in" />
-    <WorkflowSection class="animate-fade-in-up delay-100" />
-    <SkillsSection class="animate-fade-in-up delay-200" />
-    <ToolsSection class="animate-fade-in-up delay-300" />
-    <EducationSection class="animate-fade-in-up delay-400" />
-    <ContactSection class="animate-fade-in-up delay-500" />
+    <FeaturedWorkSection class="animate-fade-in-up delay-100" />
+    <WorkflowSection class="animate-fade-in-up delay-200" />
+    <SkillsSection class="animate-fade-in-up delay-300" />
+    <ToolsSection class="animate-fade-in-up delay-400" />
+    <EducationSection class="animate-fade-in-up delay-500" />
+    <ContactSection class="animate-fade-in-up delay-600" />
     <ScrollSpy />
   </div>
 </template>

@@ -7,7 +7,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <section id="skills" class="tools-section" aria-label="Tools and software">
+  <section id="tools" class="tools-section" aria-label="Tools and software">
     <div class="tools-inner">
       <div class="tools-header">
         <h2 v-scroll-reveal class="tools-heading">

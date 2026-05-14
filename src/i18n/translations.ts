@@ -70,8 +70,10 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // ScrollSpy
     'spy.cta': 'CTA',
+    'spy.featured': 'Work',
     'spy.about': 'About',
     'spy.skills': 'Skills',
+    'spy.tools': 'Tools',
     'spy.education': 'Education',
     'spy.contact': 'Contact me',
   },
@@ -139,8 +141,10 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // ScrollSpy
     'spy.cta': 'CTA',
+    'spy.featured': 'Arbeit',
     'spy.about': 'Über mich',
     'spy.skills': 'Fähigkeiten',
+    'spy.tools': 'Tools',
     'spy.education': 'Ausbildung',
     'spy.contact': 'Kontakt',
   },
@@ -208,8 +212,10 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // ScrollSpy
     'spy.cta': 'CTA',
+    'spy.featured': 'İşler',
     'spy.about': 'Hakkımda',
     'spy.skills': 'Yetenekler',
+    'spy.tools': 'Araçlar',
     'spy.education': 'Eğitim',
     'spy.contact': 'İletişim',
   },
